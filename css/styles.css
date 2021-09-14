@@ -1,0 +1,128 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+
+/* FORM */
+
+.add-book-form {
+    border-radius: 10px;
+    border: solid 1px black;
+    display: flex;
+    flex-direction: column;
+    background-color: lightgrey;
+    height: max-content;
+    padding: 15px 0;
+    width: max-content;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.form-background {
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 100vh;
+    width: 100vw;
+    display: none;
+}
+
+.add-book-input-label {
+    margin: 0 0 5px 20px;
+    font-size: 20px;
+}
+
+.add-book-input {
+    align-self: center;
+    margin: 0 20px 20px 20px;
+    width: 400px;
+    height: max-content;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.submit-button {
+    cursor: pointer;
+    box-shadow: none;
+    width: 80px;
+    height: max-content;
+    margin: 0 0 0 20px;
+    font-size: 20px;
+    border: solid 1px black;
+    border-radius: 10px;
+    outline: none;
+    padding: 2px;
+}
+
+
+/* Remover Input=Number Arrows 
+Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Firefox */
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+/* Toggle Switch */
+
+.toggle {
+    position: relative;
+    margin: 0 20px 20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toggle-switch {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle .on-off-label {
+    display: inline-block;
+}
+
+.slider {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #333;
+    transition: 0.3s;
+    width: 40px;
+    height: 25px;
+    border-radius: 100px;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    height: 19px;
+    width: 19px;
+    background-color: #fff;
+    transition: 0.3s;
+    top: 3px;
+    left: 3px;
+    border-radius: 50%;
+}
+
+input:checked+.slider::before {
+    transform: translateX(15px);
+}
+
+input:checked+.slider {
+    background-color: blue;
+}

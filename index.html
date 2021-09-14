@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Book Library</title>
+    <meta name="description" content="Book Library">
+    <meta name="author" content="Brock Larson">
+
+    <link rel="icon" href="icons/icon.ico">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+    <form id="addBookForm" class="add-book-form">
+        <label for="bookTitle" class="add-book-input-label">Title: </label>
+        <input type="text" id="bookTitle" name="bookTitle" placeholder="The Hobbit" class="add-book-input" required>
+        <label for="bookAuthor" class="add-book-input-label">Author: </label>
+        <input type="text" id="bookAuthor" name="bookAuthor" placeholder="J.R.R. Tolkien" class="add-book-input" required>
+        <label for="pageCount" class="add-book-input-label">Number of Pages: </label>
+        <input type="number" id="pageCount" name="pageCount" placeholder="310" class="add-book-input" required>
+        <label for="optionalComments" class="add-book-input-label">Optional Comments: </label>
+        <textarea id="optionalComments" name="optionalComments" placeholder="Need to read again soon!" class="add-book-input" rows="2"></textarea>
+        <label class="toggle">
+            <span class="on-off-label">Mark as Read:</span>
+            <input type="checkbox" id="isReadSwitch" class="toggle-switch">
+            <span class="slider"></span>
+        </label>
+        <button id="submitButton" class="submit-button">Add</button>
+    </form>
+    <div id='formBackground' class='form-background'></div>
+
+</body>
+
+</html>
