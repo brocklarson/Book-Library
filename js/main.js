@@ -1,5 +1,11 @@
 const addBook = document.getElementById('submitButton');
-let myLibrary = [];
+let myLibrary = [{
+    title: 'The Hobbit',
+    Author: 'J.R.R. Tolkien',
+    Pages: 610,
+    isRead: true,
+    comments: ''
+}];
 
 addBook.addEventListener('click', addBookToLibrary);
 
