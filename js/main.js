@@ -1,24 +1,28 @@
 const submitButton = document.getElementById(`submitButton`);
 const addBookButton = document.getElementById(`addBookButton`);
+const exitForm = document.getElementById(`closeForm`);
+const formContainer = document.getElementById(`formContainer`);
+const bookTable = document.getElementById(`bookTable`);
 let myLibrary = [{
     title: `The Hobbit`,
     author: `J.R.R. Tolkien`,
-    pages: 610,
-    isRead: true,
-    comments: `Love it! Need to read again soon. The character development in this book is the best that I have ever seen`
+    coverType: `Paperback`,
+    checkedOut: false,
+    comments: `Rare cover art - Do not lend out.`
 }];
 
-function Book(title, author, pages, isRead, comments) {
+function Book(title, author, coverType, checkedOut, comments) {
     this.title = title
     this.author = author
-    this.pages = pages
-    this.isRead = isRead
+    this.coverType = coverType
+    this.checkedOut = checkedOut
     this.comments = comments
 }
 
 createCard();
 submitButton.addEventListener(`click`, operate);
 addBookButton.addEventListener(`click`, showForm);
+exitForm.addEventListener(`click`, hideForm);
 
 
 function operate(event) {
@@ -37,56 +41,54 @@ function addBookToLibrary(event) {
 function createBook() {
     const title = addBookForm.elements[`bookTitle`].value;
     const author = addBookForm.elements[`bookAuthor`].value;
-    const pages = parseInt(addBookForm.elements[`pageCount`].value);
-    const isRead = addBookForm.elements[`isReadSwitch`].checked;
+    const coverType = addBookForm.elements[`coverType`].value;
+    const checkedOut = addBookForm.elements[`checkedOutSwitch`].checked;
     const comments = addBookForm.elements[`optionalComments`].value;
-    return new Book(title, author, pages, isRead, comments);
+    return new Book(title, author, coverType, checkedOut, comments);
 }
 
 function createCard() {
     if (!myLibrary.length) return;
 
     const currentBook = myLibrary.at(-1);
+    currentBook.bookID = myLibrary.indexOf(currentBook);
     console.table(currentBook);
 
-    const bookCard = document.createElement(`div`);
-    const bookCardHeader = document.createElement(`div`);
-    const editBook = document.createElement(`span`);
-    const removeBook = document.createElement(`span`);
-    const bookTitle = document.createElement(`h3`);
-    const bookAuthor = document.createElement(`h4`);
-    const bookPages = document.createElement(`h4`);
-    const bookComments = document.createElement(`p`);
+    const bookCard = document.createElement(`tr`);
+    const bookTitle = document.createElement(`td`);
+    const bookAuthor = document.createElement(`td`);
+    const coverType = document.createElement(`td`);
+    const checkedOut = document.createElement(`td`);
+    const iconsCell = document.createElement(`td`);
+    const editIcon = document.createElement(`span`);
+    const removeIcon = document.createElement(`span`);
 
-    bookCard.classList.add(`book-card`);
-    bookCardHeader.classList.add(`book-card-header`);
-    editBook.classList.add(`material-icons-outlined`, `edit`);
-    removeBook.classList.add(`material-icons-outlined`, `remove`);
 
     bookTitle.innerText = currentBook.title;
-    bookAuthor.innerText = `By: ${currentBook.author}`;
-    bookPages.innerText = `Pages: ${currentBook.pages}`;
-    bookComments.innerText = currentBook.comments;
-    editBook.innerText = `edit`;
-    removeBook.innerText = `close`;
+    bookAuthor.innerText = currentBook.author;
+    coverType.innerText = currentBook.coverType;
+    checkedOut.innerText = currentBook.checkedOut ? `Checked Out` : `In Stock`;
+    editIcon.innerText = `edit`;
+    removeIcon.innerText = `close`;
 
-    document.getElementById(`bookCardContainer`).appendChild(bookCard);
-    bookCard.appendChild(bookCardHeader);
+    iconsCell.classList.add(`icons-cell`);
+    editIcon.classList.add(`material-icons-outlined`, `edit`);
+    removeIcon.classList.add(`material-icons-outlined`, `remove`);
+
+    bookTable.appendChild(bookCard);
     bookCard.appendChild(bookTitle);
     bookCard.appendChild(bookAuthor);
-    bookCard.appendChild(bookPages);
-    bookCard.appendChild(bookComments);
-    bookCardHeader.appendChild(editBook);
-    bookCardHeader.appendChild(removeBook);
-
+    bookCard.appendChild(coverType);
+    bookCard.appendChild(checkedOut);
+    bookCard.appendChild(iconsCell);
+    iconsCell.appendChild(editIcon);
+    iconsCell.appendChild(removeIcon);
 }
 
 function showForm() {
-    const formContainer = document.getElementById(`formContainer`);
     formContainer.classList.add(`show`);
 }
 
 function hideForm() {
-    const formContainer = document.getElementById(`formContainer`);
     formContainer.classList.remove(`show`);
 }

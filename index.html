@@ -35,39 +35,36 @@
         </div>
     </header>
 
-    <div class="filter-row">
-        <label for="orderBy">Sort By:</label>
-        <select id="orderBy" name="orderBy" class="sort-order">
-            <option value="Title">Title</option>
-            <option value="Author">Author</option>
-            <option value="Pages">Length</option>
-        </select>
-        <select id="ascDesc" name="ascDesc" class="asc-desc">
-            <option value="Ascending">Ascending</option>
-            <option value="Descending">Descending</option>
-        </select>
-        <label for="filterBy">Filter:</label>
-        <select id="filterBy" name="filterBy" class="filter-by">
-            <option value="Read">Read</option>
-            <option value="Unread">Unread</option>
-        </select>
-    </div>
+    <table id="bookTable" class="book-table">
+        <tr class="table-header-row">
+            <th>Title</th>
+            <th>Author</th>
+            <th>Cover</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </table>
 
     <div id="formContainer" class="form-container">
         <form id="addBookForm" class="add-book-form">
-            <label for="bookTitle" class="add-book-input-label">Title: </label>
+            <span id="closeForm" class="material-icons close-form">close</span>
+            <label for="bookTitle" class="add-book-input-label">Title:</label>
             <input type="text" id="bookTitle" name="bookTitle" placeholder="The Hobbit" class="add-book-input" required>
-            <label for="bookAuthor" class="add-book-input-label">Author: </label>
+            <label for="bookAuthor" class="add-book-input-label">Author:</label>
             <input type="text" id="bookAuthor" name="bookAuthor" placeholder="J.R.R. Tolkien" class="add-book-input" required>
-            <label for="pageCount" class="add-book-input-label">Number of Pages: </label>
-            <input type="number" id="pageCount" name="pageCount" placeholder="310" class="add-book-input" min="0" step="1" required>
+            <label for="coverType" class="add-book-input-label">Cover Type:</label>
+            <select id="coverType" name="coverType" class="cover-type-dropdown" autocomplete="off" required>
+                <option value="Paperback" selected="">Paperback</option>
+                <option value="Hardback">Hardback</option>
+            </select>
+
             <label for="optionalComments" class="add-book-input-label">Optional Comments: </label>
-            <textarea id="optionalComments" name="optionalComments" placeholder="Need to read again soon!" class="add-book-input" rows="2"></textarea>
+            <textarea id="optionalComments" name="optionalComments" placeholder="Rare cover art - Do not lend out." class="add-book-input" rows="2"></textarea>
             <label class="toggle">
-            <span class="on-off-label">Mark as Read:</span>
-            <input type="checkbox" id="isReadSwitch" class="toggle-switch">
-            <span class="slider"></span>
-        </label>
+                <span class="on-off-label">Checked Out:</span>
+                <input type="checkbox" id="checkedOutSwitch" class="toggle-switch">
+                <span class="slider"></span>
+            </label>
             <button id="submitButton" class="submit-button">Add</button>
         </form>
         <div id='formBackground' class='form-background'></div>
