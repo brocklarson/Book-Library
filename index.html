@@ -34,6 +34,7 @@
             </div>
         </div>
     </header>
+
     <div class="filter-row">
         <label for="orderBy">Sort By:</label>
         <select id="orderBy" name="orderBy" class="sort-order">
@@ -51,6 +52,7 @@
             <option value="Unread">Unread</option>
         </select>
     </div>
+
     <div id="formContainer" class="form-container">
         <form id="addBookForm" class="add-book-form">
             <label for="bookTitle" class="add-book-input-label">Title: </label>
@@ -58,7 +60,7 @@
             <label for="bookAuthor" class="add-book-input-label">Author: </label>
             <input type="text" id="bookAuthor" name="bookAuthor" placeholder="J.R.R. Tolkien" class="add-book-input" required>
             <label for="pageCount" class="add-book-input-label">Number of Pages: </label>
-            <input type="number" id="pageCount" name="pageCount" placeholder="310" class="add-book-input" required>
+            <input type="number" id="pageCount" name="pageCount" placeholder="310" class="add-book-input" min="0" step="1" required>
             <label for="optionalComments" class="add-book-input-label">Optional Comments: </label>
             <textarea id="optionalComments" name="optionalComments" placeholder="Need to read again soon!" class="add-book-input" rows="2"></textarea>
             <label class="toggle">
@@ -69,6 +71,10 @@
             <button id="submitButton" class="submit-button">Add</button>
         </form>
         <div id='formBackground' class='form-background'></div>
+    </div>
+
+    <div id="bookCardContainer" class="book-card-container">
+
     </div>
 
     <button id="addBookButton" class="add-book-button">
