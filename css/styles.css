@@ -261,6 +261,7 @@ input:checked+.slider {
 }
 
 .submit-button {
+    display: none;
     border-radius: 10px;
     border: solid 1px black;
     box-shadow: none;
@@ -270,6 +271,10 @@ input:checked+.slider {
     outline: none;
     padding: 2px;
     width: 80px;
+}
+
+.submit-button.show {
+    display: block;
 }
 
 .close-form {

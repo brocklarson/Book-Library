@@ -24,6 +24,7 @@ let myLibrary = [{
 }];
 
 const submitButton = document.getElementById(`submitButton`);
+const editButton = document.getElementById(`editButton`);
 const addBookButton = document.getElementById(`addBookButton`);
 const exitForm = document.getElementById(`closeForm`);
 const formContainer = document.getElementById(`formContainer`);
@@ -35,14 +36,23 @@ updateTable();
 addBookButton.addEventListener(`click`, showBlankForm);
 exitForm.addEventListener(`click`, closeForm);
 table.addEventListener(`click`, handleTableClick);
+submitButton.addEventListener(`click`, operate);
 
 function operate(event) {
-    submitButton.removeEventListener(`click`, operate);
-
     event.preventDefault();
+    if (invalidForm()) {
+        window.alert(`Add book title and author`);
+        return;
+    }
     addBookToLibrary();
     closeForm();
     updateTable();
+}
+
+function invalidForm() {
+    if (addBookForm.elements[`bookTitle`].value === ``) return true;
+    if (addBookForm.elements[`bookAuthor`].value === ``) return true;
+    return false;
 }
 
 function addBookToLibrary() {
@@ -133,26 +143,24 @@ function createCard(currentBook) {
 }
 
 function showBlankForm() {
-    submitButton.addEventListener(`click`, operate);
-
     document.getElementById(`bookTitle`).value = ``;
     document.getElementById(`bookAuthor`).value = ``;
     document.getElementById(`coverType`).value = `Paperback`;
     document.getElementById(`optionalComments`).value = ``;
     document.getElementById(`checkedOutSwitch`).checked = false;
     formContainer.classList.add(`show`);
+    submitButton.classList.add(`show`);
 }
 
 function closeForm() {
-    submitButton.removeEventListener(`click`, operate);
-    // submitButton.removeEventListener(`click`, updateBooks);
-
+    submitButton.classList.remove(`show`);
+    editButton.classList.remove(`show`);
     formContainer.classList.remove(`show`);
 }
 
 function handleTableClick(event) {
     if (event.target.classList.contains(`remove`)) removeBook(event);
-    // else if (event.target.classList.contains(`edit`)) editBook(event);
+    else if (event.target.classList.contains(`edit`)) editBook(event);
     else if (event.target.classList.contains(`checked-out-cell`)) changeBookStatus(event);
 }
 
@@ -169,25 +177,15 @@ function removeBook(event) {
     updateTable();
 }
 
-// function editBook(event) {
-//     const targetBook = parseInt(event.target.parentNode.parentNode.dataset.indexNumber);
+function editBook(event) {
+    const targetBook = parseInt(event.target.parentNode.parentNode.dataset.indexNumber);
+    console.log(`here ${targetBook}`);
+    document.getElementById(`bookTitle`).value = myLibrary[targetBook].title;
+    document.getElementById(`bookAuthor`).value = myLibrary[targetBook].author;
+    document.getElementById(`coverType`).value = myLibrary[targetBook].coverType;
+    document.getElementById(`optionalComments`).value = myLibrary[targetBook].comments;
+    document.getElementById(`checkedOutSwitch`).checked = myLibrary[targetBook].checkedOut;
+    formContainer.classList.add(`show`);
+    editButton.classList.add(`show`);
 
-//     document.getElementById(`bookTitle`).value = myLibrary[targetBook].title;
-//     document.getElementById(`bookAuthor`).value = myLibrary[targetBook].author;
-//     document.getElementById(`coverType`).value = myLibrary[targetBook].coverType;
-//     document.getElementById(`optionalComments`).value = myLibrary[targetBook].comments;
-//     document.getElementById(`checkedOutSwitch`).checked = myLibrary[targetBook].checkedOut;
-//     formContainer.classList.add(`show`);
-//     submitButton.addEventListener(`click`, () => updateBooks(targetBook));
-
-// }
-
-// function updateBooks(targetBook) {
-//     myLibrary[targetBook].title = addBookForm.elements[`bookTitle`].value;
-//     myLibrary[targetBook].author = addBookForm.elements[`bookAuthor`].value;
-//     myLibrary[targetBook].coverType = addBookForm.elements[`coverType`].value;
-//     myLibrary[targetBook].comments = addBookForm.elements[`optionalComments`].value;
-//     myLibrary[targetBook].checkedOut = addBookForm.elements[`checkedOutSwitch`].checked;
-//     closeForm();
-//     updateTable();
-// }
+}
