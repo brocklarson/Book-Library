@@ -3,12 +3,13 @@ const addBookButton = document.getElementById(`addBookButton`);
 const exitForm = document.getElementById(`closeForm`);
 const formContainer = document.getElementById(`formContainer`);
 const bookTable = document.getElementById(`bookTable`);
+const table = document.querySelector(`table`);
 let myLibrary = [{
     title: `The Hobbit`,
     author: `J.R.R. Tolkien`,
     coverType: `Paperback`,
     checkedOut: false,
-    comments: `Rare cover art - Do not lend out.`
+    comments: `Rare cover art - Do not lend out.`,
 }];
 
 function Book(title, author, coverType, checkedOut, comments) {
@@ -21,19 +22,18 @@ function Book(title, author, coverType, checkedOut, comments) {
 
 createCard();
 submitButton.addEventListener(`click`, operate);
-addBookButton.addEventListener(`click`, showForm);
-exitForm.addEventListener(`click`, hideForm);
-
+addBookButton.addEventListener(`click`, showBlankForm);
+exitForm.addEventListener(`click`, closeForm);
+table.addEventListener(`click`, tableClick);
 
 function operate(event) {
     event.preventDefault();
     addBookToLibrary();
-    hideForm();
+    closeForm();
     createCard();
-
 }
 
-function addBookToLibrary(event) {
+function addBookToLibrary() {
     const newBook = createBook();
     myLibrary.push(newBook);
 }
@@ -63,7 +63,6 @@ function createCard() {
     const editIcon = document.createElement(`span`);
     const removeIcon = document.createElement(`span`);
 
-
     bookTitle.innerText = currentBook.title;
     bookAuthor.innerText = currentBook.author;
     coverType.innerText = currentBook.coverType;
@@ -75,6 +74,10 @@ function createCard() {
     editIcon.classList.add(`material-icons-outlined`, `edit`);
     removeIcon.classList.add(`material-icons-outlined`, `remove`);
 
+    removeIcon.dataset.indexNumber = currentBook.bookID;
+    editIcon.dataset.indexNumber = currentBook.bookID;
+    checkedOut.dataset.indexNumber = currentBook.bookID;
+
     bookTable.appendChild(bookCard);
     bookCard.appendChild(bookTitle);
     bookCard.appendChild(bookAuthor);
@@ -85,10 +88,60 @@ function createCard() {
     iconsCell.appendChild(removeIcon);
 }
 
-function showForm() {
+function tableClick(event) {
+    if (event.target.innerText === `close`) removeBook(event);
+    else if (event.target.innerText === `edit`) editBook(event);
+    else if (event.target.innerText === `In Stock`) changeStatus(event);
+    else if (event.target.innerText === `Checked Out`) changeStatus(event);
+}
+
+function removeBook(event) {
+    const index = parseInt(event.target.dataset.indexNumber);
+    myLibrary = myLibrary.filter((book) => book.bookID !== index);
+    removeCard(event);
+}
+
+function removeCard(event) {
+    event.target.parentNode.parentNode.remove();
+};
+
+function editBook(event) {
+    //Still need to come back and figure this out!
+    const index = parseInt(event.target.dataset.indexNumber);
+    showEditForm(index);
+}
+
+function showEditForm(index) {
+    //Still need to come back and figure this out!
+    document.getElementById(`bookTitle`).value = myLibrary[index].title;
+    document.getElementById(`bookAuthor`).value = myLibrary[index].author;
+    document.getElementById(`coverType`).value = myLibrary[index].coverType;
+    document.getElementById(`optionalComments`).value = myLibrary[index].comments;
+    document.getElementById(`checkedOutSwitch`).checked = myLibrary[index].checkedOut;
     formContainer.classList.add(`show`);
 }
 
-function hideForm() {
+function changeStatus(event) {
+    const index = parseInt(event.target.dataset.indexNumber);
+    console.log(index);
+    if (event.target.innerText === `In Stock`) {
+        event.target.innerText = `Checked Out`;
+        myLibrary[index].checkedOut = true;
+    } else {
+        event.target.innerText = `In Stock`;
+        myLibrary[index].checkedOut = false;
+    }
+}
+
+function showBlankForm() {
+    document.getElementById(`bookTitle`).value = ``;
+    document.getElementById(`bookAuthor`).value = ``;
+    document.getElementById(`coverType`).value = `Paperback`;
+    document.getElementById(`optionalComments`).value = ``;
+    document.getElementById(`checkedOutSwitch`).checked = false;
+    formContainer.classList.add(`show`);
+}
+
+function closeForm() {
     formContainer.classList.remove(`show`);
 }

@@ -48,10 +48,13 @@
     <div id="formContainer" class="form-container">
         <form id="addBookForm" class="add-book-form">
             <span id="closeForm" class="material-icons close-form">close</span>
+
             <label for="bookTitle" class="add-book-input-label">Title:</label>
             <input type="text" id="bookTitle" name="bookTitle" placeholder="The Hobbit" class="add-book-input" required>
+
             <label for="bookAuthor" class="add-book-input-label">Author:</label>
             <input type="text" id="bookAuthor" name="bookAuthor" placeholder="J.R.R. Tolkien" class="add-book-input" required>
+
             <label for="coverType" class="add-book-input-label">Cover Type:</label>
             <select id="coverType" name="coverType" class="cover-type-dropdown" autocomplete="off" required>
                 <option value="Paperback" selected="">Paperback</option>
@@ -60,6 +63,7 @@
 
             <label for="optionalComments" class="add-book-input-label">Optional Comments: </label>
             <textarea id="optionalComments" name="optionalComments" placeholder="Rare cover art - Do not lend out." class="add-book-input" rows="2"></textarea>
+
             <label class="toggle">
                 <span class="on-off-label">Checked Out:</span>
                 <input type="checkbox" id="checkedOutSwitch" class="toggle-switch">
