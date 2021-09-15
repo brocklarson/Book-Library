@@ -29,20 +29,23 @@
                 <span id="bookCount">0</span>
             </div>
             <div>
-                <p>Read:</p>
+                <p>Checked Out:</p>
                 <span id="readBookCount">0</span>
             </div>
         </div>
     </header>
 
-    <table id="bookTable" class="book-table">
-        <tr class="table-header-row">
-            <th>Title</th>
-            <th>Author</th>
-            <th>Cover</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
+    <table class="book-table">
+        <thead>
+            <tr class="table-header-row">
+                <th>Title</th>
+                <th>Author</th>
+                <th>Cover</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
     </table>
 
     <div id="formContainer" class="form-container">
@@ -69,7 +72,7 @@
                 <input type="checkbox" id="checkedOutSwitch" class="toggle-switch">
                 <span class="slider"></span>
             </label>
-            <button id="submitButton" class="submit-button">Add</button>
+            <input type="button" id="submitButton" class="submit-button" value="Add">
         </form>
         <div id='formBackground' class='form-background'></div>
     </div>

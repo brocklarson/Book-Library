@@ -68,22 +68,26 @@ header h1 {
 
 .book-table {
     border-collapse: collapse;
+    margin-left: 3vw;
     padding: 0 8px;
     table-layout: fixed;
     width: 94vw;
-    margin-left: 3vw;
     word-wrap: normal;
 }
 
 .book-table th {
-    text-align: left;
     font-size: 0.8em;
     padding: 8px 0;
+    text-align: left;
 }
 
 .book-table td {
-    padding: 8px 6px 8px 0;
     font-size: 0.7em;
+    padding: 8px 6px 8px 0;
+}
+
+.checked-out-cell {
+    cursor: pointer;
 }
 
 .book-table tr {
@@ -180,6 +184,7 @@ header h1 {
     position: fixed;
     right: 0;
     top: 0;
+    z-index: 1;
 }
 
 .add-book-input-label {
@@ -268,11 +273,11 @@ input:checked+.slider {
 }
 
 .close-form {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 8px;
     cursor: pointer;
+    padding: 8px;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .close-form:hover {

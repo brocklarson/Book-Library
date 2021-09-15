@@ -1,41 +1,73 @@
-const submitButton = document.getElementById(`submitButton`);
-const addBookButton = document.getElementById(`addBookButton`);
-const exitForm = document.getElementById(`closeForm`);
-const formContainer = document.getElementById(`formContainer`);
-const bookTable = document.getElementById(`bookTable`);
-const table = document.querySelector(`table`);
+function Book(
+    title = "Unknown",
+    author = "Unknown",
+    coverType = "Unknown",
+    checkedOut = false,
+    comments = "none",
+    bookID = null
+) {
+    this.title = title
+    this.author = author
+    this.coverType = coverType
+    this.checkedOut = checkedOut
+    this.comments = comments
+    this.bookID = bookID
+}
+
 let myLibrary = [{
     title: `The Hobbit`,
     author: `J.R.R. Tolkien`,
     coverType: `Paperback`,
     checkedOut: false,
     comments: `Rare cover art - Do not lend out.`,
+    bookID: 0
 }];
 
-function Book(title, author, coverType, checkedOut, comments) {
-    this.title = title
-    this.author = author
-    this.coverType = coverType
-    this.checkedOut = checkedOut
-    this.comments = comments
-}
+const submitButton = document.getElementById(`submitButton`);
+const addBookButton = document.getElementById(`addBookButton`);
+const exitForm = document.getElementById(`closeForm`);
+const formContainer = document.getElementById(`formContainer`);
+const bookTable = document.getElementById(`tableBody`);
+const table = document.querySelector(`table`);
 
-createCard();
-submitButton.addEventListener(`click`, operate);
+
+updateTable();
 addBookButton.addEventListener(`click`, showBlankForm);
 exitForm.addEventListener(`click`, closeForm);
-table.addEventListener(`click`, tableClick);
+table.addEventListener(`click`, handleTableClick);
 
 function operate(event) {
+    submitButton.removeEventListener(`click`, operate);
+
     event.preventDefault();
     addBookToLibrary();
     closeForm();
-    createCard();
+    updateTable();
 }
 
 function addBookToLibrary() {
     const newBook = createBook();
+    if (inLibrary(newBook)) {
+        const duplicateBook = getDuplicateBook(newBook);
+        let confirmMessage = `${duplicateBook.title} by ${duplicateBook.author} is already in your Library with a ID of '${duplicateBook.bookID}'.\n\nDo you still want to add this book?`;
+        const confirm = window.confirm(confirmMessage);
+        if (!confirm) return;
+    }
     myLibrary.push(newBook);
+}
+
+function getDuplicateBook(newBook) {
+    return myLibrary.find((book) => {
+        if (book.title.toLowerCase() === newBook.title.toLowerCase() &&
+            book.author.toLowerCase() === newBook.author.toLowerCase()) return true;
+    });
+}
+
+function inLibrary(newBook) {
+    return myLibrary.some((book) => {
+        if (book.title.toLowerCase() === newBook.title.toLowerCase() &&
+            book.author.toLowerCase() === newBook.author.toLowerCase()) return true;
+    });
 }
 
 function createBook() {
@@ -44,15 +76,27 @@ function createBook() {
     const coverType = addBookForm.elements[`coverType`].value;
     const checkedOut = addBookForm.elements[`checkedOutSwitch`].checked;
     const comments = addBookForm.elements[`optionalComments`].value;
-    return new Book(title, author, coverType, checkedOut, comments);
+    const bookID = myLibrary.indexOf(myLibrary.at(-1)) + 1;
+    return new Book(title, author, coverType, checkedOut, comments, bookID);
 }
 
-function createCard() {
+function updateTable() {
+    removeAllRows()
     if (!myLibrary.length) return;
+    for (let i = 0; i < myLibrary.length; i++) {
+        createCard(myLibrary[i]);
+    }
+}
 
-    const currentBook = myLibrary.at(-1);
-    currentBook.bookID = myLibrary.indexOf(currentBook);
-    console.table(currentBook);
+function removeAllRows() {
+    let i = 0
+    while (bookTable.firstChild || i > 10000) {
+        i++;
+        bookTable.removeChild(bookTable.firstChild);
+    }
+}
+
+function createCard(currentBook) {
 
     const bookCard = document.createElement(`tr`);
     const bookTitle = document.createElement(`td`);
@@ -62,6 +106,9 @@ function createCard() {
     const iconsCell = document.createElement(`td`);
     const editIcon = document.createElement(`span`);
     const removeIcon = document.createElement(`span`);
+
+    //Matches the book card with the object
+    bookCard.dataset.indexNumber = currentBook.bookID;
 
     bookTitle.innerText = currentBook.title;
     bookAuthor.innerText = currentBook.author;
@@ -73,10 +120,7 @@ function createCard() {
     iconsCell.classList.add(`icons-cell`);
     editIcon.classList.add(`material-icons-outlined`, `edit`);
     removeIcon.classList.add(`material-icons-outlined`, `remove`);
-
-    removeIcon.dataset.indexNumber = currentBook.bookID;
-    editIcon.dataset.indexNumber = currentBook.bookID;
-    checkedOut.dataset.indexNumber = currentBook.bookID;
+    checkedOut.classList.add(`checked-out-cell`);
 
     bookTable.appendChild(bookCard);
     bookCard.appendChild(bookTitle);
@@ -88,52 +132,9 @@ function createCard() {
     iconsCell.appendChild(removeIcon);
 }
 
-function tableClick(event) {
-    if (event.target.innerText === `close`) removeBook(event);
-    else if (event.target.innerText === `edit`) editBook(event);
-    else if (event.target.innerText === `In Stock`) changeStatus(event);
-    else if (event.target.innerText === `Checked Out`) changeStatus(event);
-}
-
-function removeBook(event) {
-    const index = parseInt(event.target.dataset.indexNumber);
-    myLibrary = myLibrary.filter((book) => book.bookID !== index);
-    removeCard(event);
-}
-
-function removeCard(event) {
-    event.target.parentNode.parentNode.remove();
-};
-
-function editBook(event) {
-    //Still need to come back and figure this out!
-    const index = parseInt(event.target.dataset.indexNumber);
-    showEditForm(index);
-}
-
-function showEditForm(index) {
-    //Still need to come back and figure this out!
-    document.getElementById(`bookTitle`).value = myLibrary[index].title;
-    document.getElementById(`bookAuthor`).value = myLibrary[index].author;
-    document.getElementById(`coverType`).value = myLibrary[index].coverType;
-    document.getElementById(`optionalComments`).value = myLibrary[index].comments;
-    document.getElementById(`checkedOutSwitch`).checked = myLibrary[index].checkedOut;
-    formContainer.classList.add(`show`);
-}
-
-function changeStatus(event) {
-    const index = parseInt(event.target.dataset.indexNumber);
-    console.log(index);
-    if (event.target.innerText === `In Stock`) {
-        event.target.innerText = `Checked Out`;
-        myLibrary[index].checkedOut = true;
-    } else {
-        event.target.innerText = `In Stock`;
-        myLibrary[index].checkedOut = false;
-    }
-}
-
 function showBlankForm() {
+    submitButton.addEventListener(`click`, operate);
+
     document.getElementById(`bookTitle`).value = ``;
     document.getElementById(`bookAuthor`).value = ``;
     document.getElementById(`coverType`).value = `Paperback`;
@@ -143,5 +144,50 @@ function showBlankForm() {
 }
 
 function closeForm() {
+    submitButton.removeEventListener(`click`, operate);
+    // submitButton.removeEventListener(`click`, updateBooks);
+
     formContainer.classList.remove(`show`);
 }
+
+function handleTableClick(event) {
+    if (event.target.classList.contains(`remove`)) removeBook(event);
+    // else if (event.target.classList.contains(`edit`)) editBook(event);
+    else if (event.target.classList.contains(`checked-out-cell`)) changeBookStatus(event);
+}
+
+function changeBookStatus(event) {
+    const targetBook = parseInt(event.target.parentNode.dataset.indexNumber);
+    if (event.target.innerText === `In Stock`) myLibrary[targetBook].checkedOut = true;
+    else myLibrary[targetBook].checkedOut = false;
+    updateTable();
+}
+
+function removeBook(event) {
+    const targetBook = event.target.parentNode.parentNode;
+    myLibrary = myLibrary.filter((book) => book.bookID !== parseInt(targetBook.dataset.indexNumber));
+    updateTable();
+}
+
+// function editBook(event) {
+//     const targetBook = parseInt(event.target.parentNode.parentNode.dataset.indexNumber);
+
+//     document.getElementById(`bookTitle`).value = myLibrary[targetBook].title;
+//     document.getElementById(`bookAuthor`).value = myLibrary[targetBook].author;
+//     document.getElementById(`coverType`).value = myLibrary[targetBook].coverType;
+//     document.getElementById(`optionalComments`).value = myLibrary[targetBook].comments;
+//     document.getElementById(`checkedOutSwitch`).checked = myLibrary[targetBook].checkedOut;
+//     formContainer.classList.add(`show`);
+//     submitButton.addEventListener(`click`, () => updateBooks(targetBook));
+
+// }
+
+// function updateBooks(targetBook) {
+//     myLibrary[targetBook].title = addBookForm.elements[`bookTitle`].value;
+//     myLibrary[targetBook].author = addBookForm.elements[`bookAuthor`].value;
+//     myLibrary[targetBook].coverType = addBookForm.elements[`coverType`].value;
+//     myLibrary[targetBook].comments = addBookForm.elements[`optionalComments`].value;
+//     myLibrary[targetBook].checkedOut = addBookForm.elements[`checkedOutSwitch`].checked;
+//     closeForm();
+//     updateTable();
+// }
