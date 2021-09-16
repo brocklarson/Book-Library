@@ -23,6 +23,7 @@ let myLibrary = [{
     bookID: 0
 }];
 
+
 const submitButton = document.getElementById(`submitButton`);
 const addBookButton = document.getElementById(`addBookButton`);
 const exitForm = document.getElementById(`closeForm`);
@@ -142,8 +143,9 @@ function createCard(currentBook) {
     const bookAuthor = document.createElement(`td`);
     const coverType = document.createElement(`td`);
     const checkedOut = document.createElement(`td`);
-    const iconsCell = document.createElement(`td`);
+    const viewIconCell = document.createElement(`td`); //
     const viewIcon = document.createElement(`span`);
+    const removeIconCell = document.createElement(`td`); //
     const removeIcon = document.createElement(`span`);
 
     //Matches the book card with the object
@@ -156,7 +158,8 @@ function createCard(currentBook) {
     viewIcon.innerText = `visibility`;
     removeIcon.innerText = `close`;
 
-    iconsCell.classList.add(`icons-cell`);
+    viewIconCell.classList.add(`icons-cell`);
+    removeIconCell.classList.add(`icons-cell`);
     viewIcon.classList.add(`material-icons-outlined`, `view`);
     removeIcon.classList.add(`material-icons-outlined`, `remove`);
     checkedOut.classList.add(`checked-out-cell`);
@@ -166,9 +169,11 @@ function createCard(currentBook) {
     bookCard.appendChild(bookAuthor);
     bookCard.appendChild(coverType);
     bookCard.appendChild(checkedOut);
-    bookCard.appendChild(iconsCell);
-    iconsCell.appendChild(viewIcon);
-    iconsCell.appendChild(removeIcon);
+    bookCard.appendChild(viewIconCell);
+    bookCard.appendChild(removeIconCell);
+
+    viewIconCell.appendChild(viewIcon);
+    removeIconCell.appendChild(removeIcon);
 }
 
 function showBlankForm() {
@@ -191,6 +196,7 @@ function handleTableClick(event) {
     if (event.target.classList.contains(`remove`)) removeBook(event);
     else if (event.target.classList.contains(`view`)) viewBook(event);
     else if (event.target.classList.contains(`checked-out-cell`)) changeBookStatus(event);
+    else if (event.target.nodeName === `TH`) sortTable(event);
 }
 
 function changeBookStatus(event) {
@@ -219,4 +225,32 @@ function viewBook(event) {
 
     bookInfoContainer.classList.add(`show`);
     formBackground.classList.add(`show`);
+}
+
+function sortTable(event) {
+    let sorter = `bookID`;
+    if (event.target.innerText === ``) return;
+
+    if (event.target.innerText === `Status`) {
+        sorter = `checkedOut`;
+        myLibrary = myLibrary.sort(function(a, b) {
+            if (a[sorter].toString() > b[sorter].toString()) return -1;
+            if (a[sorter].toString() === b[sorter].toString()) return 0;
+            else return 1;
+        });
+        updateTable();
+        return;
+    }
+
+
+    if (event.target.innerText === `Title`) sorter = `title`;
+    else if (event.target.innerText === `Author`) sorter = `author`;
+    else if (event.target.innerText === `Cover`) sorter = `coverType`;
+    myLibrary = myLibrary.sort(function(a, b) {
+        if (a[sorter].toString().toLowerCase() > b[sorter].toString().toLowerCase()) return 1;
+        else if (a[sorter].toString().toLowerCase() === b[sorter].toString().toLowerCase()) return 0;
+        else return -1;
+    });
+
+    updateTable();
 }
