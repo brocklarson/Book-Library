@@ -15,13 +15,38 @@ function Book(
 }
 
 let myLibrary = [{
-    title: `The Hobbit`,
-    author: `J.R.R. Tolkien`,
-    coverType: `Paperback`,
-    checkedOut: false,
-    notes: `Rare cover art - Do not lend out.`,
-    bookID: 0
-}];
+        title: `The Hobbit`,
+        author: `J.R.R. Tolkien`,
+        coverType: `Paperback`,
+        checkedOut: false,
+        notes: `Rare cover art - Do not lend out.`,
+        bookID: 0
+    },
+    {
+        title: `Harry Potter and the Sorcerer's Stone`,
+        author: `J.K. Rowling`,
+        coverType: `Hardback`,
+        checkedOut: true,
+        notes: `Old copy`,
+        bookID: 1
+    },
+    {
+        title: `The Chronicles of Narnia`,
+        author: `C.S. Lewis`,
+        coverType: `Paperback`,
+        checkedOut: true,
+        notes: `Need hardback`,
+        bookID: 2
+    },
+    {
+        title: `Alone on the Wall`,
+        author: `Alex Honnold`,
+        coverType: `Hardback`,
+        checkedOut: false,
+        notes: ``,
+        bookID: 3
+    }
+];
 
 
 const submitButton = document.getElementById(`submitButton`);
@@ -215,7 +240,9 @@ function removeBook(event) {
 }
 
 function viewBook(event) {
-    const targetBook = parseInt(event.target.parentNode.parentNode.dataset.indexNumber);
+    const rowIndexNumber = parseInt(event.target.parentNode.parentNode.dataset.indexNumber);
+    const targetBook = myLibrary.findIndex(book => book.bookID === rowIndexNumber);
+
     document.getElementById(`bookInfoID`).innerText = myLibrary[targetBook].bookID;
     document.getElementById(`bookInfoTitle`).innerText = myLibrary[targetBook].title;
     document.getElementById(`bookInfoAuthor`).innerText = myLibrary[targetBook].author;
