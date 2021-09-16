@@ -22,7 +22,7 @@
             <img src="icons/icon.png" alt="A book logo">
             <h1>My Library</h1>
         </div>
-        <div class="library-stats">
+        <div class="library-log">
             <h2>Library Log</h2>
             <div>
                 <p>Total Books:</p>
@@ -30,7 +30,7 @@
             </div>
             <div>
                 <p>Checked Out:</p>
-                <span id="readBookCount">0</span>
+                <span id="checkedOutCount">0</span>
             </div>
         </div>
     </header>
@@ -54,9 +54,11 @@
 
             <label for="bookTitle" class="add-book-input-label">Title:</label>
             <input type="text" id="bookTitle" name="bookTitle" placeholder="The Hobbit" class="add-book-input" required>
+            <small id="invalidTitle">*Please enter a book title</small>
 
             <label for="bookAuthor" class="add-book-input-label">Author:</label>
             <input type="text" id="bookAuthor" name="bookAuthor" placeholder="J.R.R. Tolkien" class="add-book-input" required>
+            <small id="invalidAuthor">*Please enter a book author</small>
 
             <label for="coverType" class="add-book-input-label">Cover Type:</label>
             <select id="coverType" name="coverType" class="cover-type-dropdown" autocomplete="off" required>
@@ -64,8 +66,8 @@
                 <option value="Hardback">Hardback</option>
             </select>
 
-            <label for="optionalComments" class="add-book-input-label">Optional Comments: </label>
-            <textarea id="optionalComments" name="optionalComments" placeholder="Rare cover art - Do not lend out." class="add-book-input" rows="2"></textarea>
+            <label for="optionalNotes" class="add-book-input-label">Notes: </label>
+            <textarea id="optionalNotes" name="optionalNotes" placeholder="Rare cover art - Do not lend out." class="add-book-input" rows="2"></textarea>
 
             <label class="toggle">
                 <span class="on-off-label">Checked Out:</span>
@@ -73,12 +75,24 @@
                 <span class="slider"></span>
             </label>
             <input type="button" id="submitButton" class="submit-button" value="Add">
-            <input type="button" id="editButton" class="submit-button" value="Edit">
         </form>
-        <div id='formBackground' class='form-background'></div>
     </div>
+    <div id='formBackground' class='form-background'></div>
 
-    <div id="bookCardContainer" class="book-card-container">
+    <div id="bookInfoContainer" class="book-info-container">
+        <span id="closeInfo" class="material-icons close-form">close</span>
+        <p>Book ID:</p>
+        <p id="bookInfoID" class='italicize'></p>
+        <p>Title:</p>
+        <p id="bookInfoTitle" class='italicize'>The Hobbit</p>
+        <p>Author:</p>
+        <p id="bookInfoAuthor" class='italicize'></p>
+        <p>Cover:</p>
+        <p id="bookInfoCover" class='italicize'></p>
+        <p>Status:</p>
+        <p id="bookInfoStatus" class='italicize'></p>
+        <p>Notes:</p>
+        <p id="bookInfoNotes" class='italicize'></p>
 
     </div>
 

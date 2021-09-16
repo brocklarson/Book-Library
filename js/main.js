@@ -3,14 +3,14 @@ function Book(
     author = "Unknown",
     coverType = "Unknown",
     checkedOut = false,
-    comments = "none",
+    notes = "none",
     bookID = null
 ) {
     this.title = title
     this.author = author
     this.coverType = coverType
     this.checkedOut = checkedOut
-    this.comments = comments
+    this.notes = notes
     this.bookID = bookID
 }
 
@@ -19,40 +19,69 @@ let myLibrary = [{
     author: `J.R.R. Tolkien`,
     coverType: `Paperback`,
     checkedOut: false,
-    comments: `Rare cover art - Do not lend out.`,
+    notes: `Rare cover art - Do not lend out.`,
     bookID: 0
 }];
 
 const submitButton = document.getElementById(`submitButton`);
-const editButton = document.getElementById(`editButton`);
 const addBookButton = document.getElementById(`addBookButton`);
 const exitForm = document.getElementById(`closeForm`);
+const exitInfo = document.getElementById(`closeInfo`);
 const formContainer = document.getElementById(`formContainer`);
 const bookTable = document.getElementById(`tableBody`);
 const table = document.querySelector(`table`);
+const formBackground = document.getElementById(`formBackground`);
+const bookInfoContainer = document.getElementById(`bookInfoContainer`);
+const bookCount = document.getElementById(`bookCount`);
+const checkedOutCount = document.getElementById(`checkedOutCount`);
 
-
-updateTable();
+initialize();
 addBookButton.addEventListener(`click`, showBlankForm);
 exitForm.addEventListener(`click`, closeForm);
+exitInfo.addEventListener(`click`, closeForm);
+formBackground.addEventListener(`click`, closeForm);
 table.addEventListener(`click`, handleTableClick);
 submitButton.addEventListener(`click`, operate);
+
+function initialize() {
+    updateTable();
+    updateLog();
+}
 
 function operate(event) {
     event.preventDefault();
     if (invalidForm()) {
-        window.alert(`Add book title and author`);
         return;
     }
     addBookToLibrary();
     closeForm();
+
     updateTable();
+    updateLog();
+}
+
+function updateLog() {
+    bookCount.innerText = myLibrary.length;
+    checkedOutCount.innerText = myLibrary.filter(book => book.checkedOut === true).length;
 }
 
 function invalidForm() {
-    if (addBookForm.elements[`bookTitle`].value === ``) return true;
-    if (addBookForm.elements[`bookAuthor`].value === ``) return true;
-    return false;
+    let invalid = false;
+    const invalidIndicator = document.querySelectorAll(`small`);
+
+    for (let i = 0; i < invalidIndicator.length; i++) {
+        invalidIndicator[i].classList.remove(`show`);
+    }
+
+    if (addBookForm.elements[`bookTitle`].value === ``) {
+        document.getElementById('invalidTitle').classList.add(`show`);
+        invalid = true;
+    }
+    if (addBookForm.elements[`bookAuthor`].value === ``) {
+        document.getElementById('invalidAuthor').classList.add(`show`);
+        invalid = true;
+    }
+    return invalid;
 }
 
 function addBookToLibrary() {
@@ -85,9 +114,9 @@ function createBook() {
     const author = addBookForm.elements[`bookAuthor`].value;
     const coverType = addBookForm.elements[`coverType`].value;
     const checkedOut = addBookForm.elements[`checkedOutSwitch`].checked;
-    const comments = addBookForm.elements[`optionalComments`].value;
+    const notes = addBookForm.elements[`optionalNotes`].value;
     const bookID = myLibrary.indexOf(myLibrary.at(-1)) + 1;
-    return new Book(title, author, coverType, checkedOut, comments, bookID);
+    return new Book(title, author, coverType, checkedOut, notes, bookID);
 }
 
 function updateTable() {
@@ -114,7 +143,7 @@ function createCard(currentBook) {
     const coverType = document.createElement(`td`);
     const checkedOut = document.createElement(`td`);
     const iconsCell = document.createElement(`td`);
-    const editIcon = document.createElement(`span`);
+    const viewIcon = document.createElement(`span`);
     const removeIcon = document.createElement(`span`);
 
     //Matches the book card with the object
@@ -124,11 +153,11 @@ function createCard(currentBook) {
     bookAuthor.innerText = currentBook.author;
     coverType.innerText = currentBook.coverType;
     checkedOut.innerText = currentBook.checkedOut ? `Checked Out` : `In Stock`;
-    editIcon.innerText = `edit`;
+    viewIcon.innerText = `visibility`;
     removeIcon.innerText = `close`;
 
     iconsCell.classList.add(`icons-cell`);
-    editIcon.classList.add(`material-icons-outlined`, `edit`);
+    viewIcon.classList.add(`material-icons-outlined`, `view`);
     removeIcon.classList.add(`material-icons-outlined`, `remove`);
     checkedOut.classList.add(`checked-out-cell`);
 
@@ -138,7 +167,7 @@ function createCard(currentBook) {
     bookCard.appendChild(coverType);
     bookCard.appendChild(checkedOut);
     bookCard.appendChild(iconsCell);
-    iconsCell.appendChild(editIcon);
+    iconsCell.appendChild(viewIcon);
     iconsCell.appendChild(removeIcon);
 }
 
@@ -146,21 +175,21 @@ function showBlankForm() {
     document.getElementById(`bookTitle`).value = ``;
     document.getElementById(`bookAuthor`).value = ``;
     document.getElementById(`coverType`).value = `Paperback`;
-    document.getElementById(`optionalComments`).value = ``;
+    document.getElementById(`optionalNotes`).value = ``;
     document.getElementById(`checkedOutSwitch`).checked = false;
     formContainer.classList.add(`show`);
-    submitButton.classList.add(`show`);
+    formBackground.classList.add(`show`);
 }
 
 function closeForm() {
-    submitButton.classList.remove(`show`);
-    editButton.classList.remove(`show`);
     formContainer.classList.remove(`show`);
+    formBackground.classList.remove(`show`);
+    bookInfoContainer.classList.remove(`show`);
 }
 
 function handleTableClick(event) {
     if (event.target.classList.contains(`remove`)) removeBook(event);
-    else if (event.target.classList.contains(`edit`)) editBook(event);
+    else if (event.target.classList.contains(`view`)) viewBook(event);
     else if (event.target.classList.contains(`checked-out-cell`)) changeBookStatus(event);
 }
 
@@ -169,23 +198,25 @@ function changeBookStatus(event) {
     if (event.target.innerText === `In Stock`) myLibrary[targetBook].checkedOut = true;
     else myLibrary[targetBook].checkedOut = false;
     updateTable();
+    updateLog();
 }
 
 function removeBook(event) {
     const targetBook = event.target.parentNode.parentNode;
     myLibrary = myLibrary.filter((book) => book.bookID !== parseInt(targetBook.dataset.indexNumber));
     updateTable();
+    updateLog();
 }
 
-function editBook(event) {
+function viewBook(event) {
     const targetBook = parseInt(event.target.parentNode.parentNode.dataset.indexNumber);
-    console.log(`here ${targetBook}`);
-    document.getElementById(`bookTitle`).value = myLibrary[targetBook].title;
-    document.getElementById(`bookAuthor`).value = myLibrary[targetBook].author;
-    document.getElementById(`coverType`).value = myLibrary[targetBook].coverType;
-    document.getElementById(`optionalComments`).value = myLibrary[targetBook].comments;
-    document.getElementById(`checkedOutSwitch`).checked = myLibrary[targetBook].checkedOut;
-    formContainer.classList.add(`show`);
-    editButton.classList.add(`show`);
+    document.getElementById(`bookInfoID`).innerText = myLibrary[targetBook].bookID;
+    document.getElementById(`bookInfoTitle`).innerText = myLibrary[targetBook].title;
+    document.getElementById(`bookInfoAuthor`).innerText = myLibrary[targetBook].author;
+    document.getElementById(`bookInfoCover`).innerText = myLibrary[targetBook].coverType;
+    document.getElementById(`bookInfoStatus`).innerText = myLibrary[targetBook].checkedOut ? `Checked Out` : `In Stock`;
+    document.getElementById(`bookInfoNotes`).innerText = myLibrary[targetBook].notes;
 
+    bookInfoContainer.classList.add(`show`);
+    formBackground.classList.add(`show`);
 }
