@@ -14,8 +14,10 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: 25vh;
     padding: 24px 16px;
-    width: 100vw;
+    position: relative;
+    width: 100%;
 }
 
 .header-title {
@@ -25,6 +27,7 @@ header {
 header img {
     display: inline-block;
     height: 28px;
+    margin: 0 8px;
     width: 28px;
 }
 
@@ -34,20 +37,15 @@ header h1 {
     padding: 0;
 }
 
-
-/* rgb(33, 150, 243) 0%, rgb(21, 101, 192) 100% */
-
 .library-log {
     border-radius: 5px;
-    border: solid 1px black;
-    /* color: rgb(21, 101, 192); */
+    border: solid 2px black;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 16px;
     max-width: 80vw;
-    padding: 0 24px;
-    padding: 8px;
+    padding: 8px 24px;
     width: max-content;
 }
 
@@ -69,6 +67,37 @@ header h1 {
     display: inline-block;
 }
 
+.background-img {
+    background-color: rgba(24, 115, 205, 0.2);
+    background-image: url('../icons/header_background.png');
+    background-position-x: center;
+    background-position-y: 10%;
+    background-size: auto 100%;
+    bottom: 0;
+    left: 0;
+    opacity: 80%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -2;
+}
+
+.background-img-fade {
+    -ms-filter: progid: DXImageTransform.Microsoft.gradient(startColorstr=#550000FF, endColorstr=#550000FF);
+    background: -moz-linear-gradient(top, rgba( 255, 255, 255, 0) 0%, rgba( 255, 255, 255, 1) 100%);
+    background: -ms-linear-gradient(top, rgba( 255, 255, 255, 0) 0%, rgba( 255, 255, 255, 1) 100%);
+    background: -o-linear-gradient( top, rgba( 255, 255, 255, 0) 0%, rgba( 255, 255, 255, 1) 100%);
+    background: -webkit-linear-gradient( top, rgba( 255, 255, 255, 0) 0%, rgba( 255, 255, 255, 1) 100%);
+    background: linear-gradient(top, rgba( 255, 255, 255, 255) 0%, rgba( 255, 255, 255, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr=#00ffffff, endColorstr=#ffffffff);
+    height: 100%;
+    left: 0px;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    z-index: -1;
+}
+
 
 /* BOOK TABLE */
 
@@ -82,7 +111,6 @@ header h1 {
 }
 
 .book-table th {
-    cursor: pointer;
     font-size: 0.8em;
     padding: 8px 0;
     text-align: left;
@@ -90,6 +118,10 @@ header h1 {
 
 .header-arrow {
     font-size: 0.9em !important;
+}
+
+.table-header-text {
+    cursor: pointer;
 }
 
 .table-header-text:hover,
@@ -132,7 +164,7 @@ th:nth-child(6) {
 
 .remove:hover {
     transform-origin: center;
-    transform: scale(1.15) rotate(90deg);
+    transform: scale(1.15);
     transition: 0.4s;
 }
 
@@ -185,7 +217,7 @@ th:nth-child(6) {
 }
 
 .add-book-form {
-    background-color: lightgrey;
+    background: linear-gradient(135deg, #dad6d6 0%, #aaafb4 100%);
     border-radius: 10px;
     border: solid 1px black;
     display: flex;
@@ -222,6 +254,7 @@ th:nth-child(6) {
 }
 
 .add-book-input {
+    background: whitesmoke;
     font-size: 16px;
     height: max-content;
     margin: 0;
@@ -300,15 +333,22 @@ input:checked+.slider {
 }
 
 .submit-button {
+    background: linear-gradient(135deg, rgb(33, 150, 243) 0%, rgb(21, 101, 192) 100%);
     border-radius: 10px;
     border: solid 1px black;
     box-shadow: none;
+    color: white;
     cursor: pointer;
     font-size: 20px;
     height: max-content;
     outline: none;
     padding: 2px;
     width: 80px;
+}
+
+.submit-button:hover,
+.submit-button:focus {
+    filter: brightness(0.9);
 }
 
 .close-form {
@@ -321,7 +361,7 @@ input:checked+.slider {
 
 .close-form:hover {
     transform-origin: center;
-    transform: scale(1.15) rotate(90deg);
+    transform: scale(1.15);
     transition: 0.4s;
 }
 
@@ -329,7 +369,7 @@ input:checked+.slider {
 /* VIEW BOOK INFO CARD */
 
 .book-info-container {
-    background-color: lightgrey;
+    background: linear-gradient(135deg, #dad6d6 0%, #aaafb4 100%);
     border-radius: 10px;
     border: solid 1px black;
     display: none;
@@ -343,6 +383,7 @@ input:checked+.slider {
     transform: translate(-50%, -50%);
     width: max-content;
     z-index: 2;
+    color:
 }
 
 .book-info-container.show {
@@ -373,4 +414,34 @@ input:checked+.slider {
     .book-table td {
         font-size: 0.6em;
     }
+}
+
+@media only screen and (min-width: 1000px) {
+    th:nth-child(6) {
+        text-align: center !important;
+        width: 50px;
+    }
+    header {
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+    header h1 {
+        font-size: 2.5em;
+    }
+    .library-log h2 {
+        font-size: 2em;
+    }
+    .library-log div {
+        font-size: 1.5em;
+    }
+    .background-img {
+        background-size: 100% auto;
+    }
+    .book-table th {
+        font-size: 1.25em;
+    }
+    .book-table td {
+        font-size: 1em;
+    }
+    th:nth-child(5),
 }

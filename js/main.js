@@ -146,7 +146,7 @@ function createCard(currentBook) {
     bookTitle.innerText = currentBook.title;
     bookAuthor.innerText = currentBook.author;
     coverType.innerText = currentBook.coverType;
-    checkedOut.innerText = currentBook.checkedOut ? `Checked Out` : `In Stock`;
+    checkedOut.innerText = currentBook.checkedOut ? `Checked Out` : `Available`;
     viewIcon.innerText = `visibility`;
     removeIcon.innerText = `close`;
 
@@ -192,8 +192,10 @@ function handleTableClick(event) {
 }
 
 function changeBookStatus(event) {
-    const targetBook = parseInt(event.target.parentNode.dataset.indexNumber);
-    if (event.target.innerText === `In Stock`) myLibrary[targetBook].checkedOut = true;
+    const rowIndexNumber = parseInt(event.target.parentNode.dataset.indexNumber);
+    const targetBook = myLibrary.findIndex(book => book.bookID === rowIndexNumber);
+
+    if (event.target.innerText === `Available`) myLibrary[targetBook].checkedOut = true;
     else myLibrary[targetBook].checkedOut = false;
     updateTable();
     updateLog();
@@ -214,7 +216,7 @@ function viewBook(event) {
     document.getElementById(`bookInfoTitle`).innerText = myLibrary[targetBook].title;
     document.getElementById(`bookInfoAuthor`).innerText = myLibrary[targetBook].author;
     document.getElementById(`bookInfoCover`).innerText = myLibrary[targetBook].coverType;
-    document.getElementById(`bookInfoStatus`).innerText = myLibrary[targetBook].checkedOut ? `Checked Out` : `In Stock`;
+    document.getElementById(`bookInfoStatus`).innerText = myLibrary[targetBook].checkedOut ? `Checked Out` : `Available`;
     document.getElementById(`bookInfoNotes`).innerText = myLibrary[targetBook].notes;
 
     bookInfoContainer.classList.add(`show`);
@@ -241,15 +243,17 @@ function getSortDirection(event) {
     }
 }
 
+function getSorter(event) {
+    if (event.target.innerText === `Status`) return `checkedOut`;
+    else if (event.target.innerText === `Title`) return `title`;
+    else if (event.target.innerText === `Author`) return `author`;
+    else if (event.target.innerText === `Cover`) return `coverType`;
+}
+
 function sortTable(event) {
     if (event.target.innerText === ``) return;
-    let sorter = `bookID`;
+    let sorter = getSorter(event);
     const sortDirection = getSortDirection(event);
-
-    if (event.target.innerText === `Status`) sorter = `checkedOut`;
-    else if (event.target.innerText === `Title`) sorter = `title`;
-    else if (event.target.innerText === `Author`) sorter = `author`;
-    else if (event.target.innerText === `Cover`) sorter = `coverType`;
 
     switch (sortDirection) {
         case `ascending`:
@@ -267,7 +271,5 @@ function sortTable(event) {
             });
             break;
     }
-    if (sorter === `checkedOut`) myLibrary = myLibrary.reverse();
-
     updateTable();
 }
