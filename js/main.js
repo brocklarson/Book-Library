@@ -28,6 +28,18 @@ const bookInfoContainer = document.getElementById(`bookInfoContainer`);
 const bookCount = document.getElementById(`bookCount`);
 const checkedOutCount = document.getElementById(`checkedOutCount`);
 
+
+const searchBar = document.getElementById(`searchBar`);
+
+searchBar.addEventListener('input', bookSearch);
+
+function bookSearch() {
+    const search = searchBar.value.toLowerCase();
+    const dispLibrary = myLibrary.filter(book => (book.title.toLowerCase().includes(search) || book.author.toLowerCase().includes(search)));
+    updateTable(dispLibrary);
+}
+
+
 initialize();
 addBookButton.addEventListener(`click`, showBlankForm);
 exitForm.addEventListener(`click`, closeForm);
@@ -37,7 +49,7 @@ table.addEventListener(`click`, handleTableClick);
 submitButton.addEventListener(`click`, operate);
 
 function initialize() {
-    updateTable();
+    updateTable(myLibrary);
     updateLog();
 }
 
@@ -49,7 +61,7 @@ function operate(event) {
     addBookToLibrary();
     closeForm();
 
-    updateTable();
+    updateTable(myLibrary);
     updateLog();
 }
 
@@ -106,7 +118,7 @@ function createBook() {
     return new Book(title, author, coverType, checkedOut, notes, bookID);
 }
 
-function updateTable() {
+function updateTable(myLibrary) {
     removeAllRows()
     if (!myLibrary.length) return;
     for (let i = 0; i < myLibrary.length; i++) {
@@ -191,14 +203,14 @@ function changeBookStatus(event) {
 
     if (event.target.innerText === `Available`) myLibrary[targetBook].checkedOut = true;
     else myLibrary[targetBook].checkedOut = false;
-    updateTable();
+    updateTable(myLibrary);
     updateLog();
 }
 
 function removeBook(event) {
     const targetBook = event.target.parentNode.parentNode;
     myLibrary = myLibrary.filter((book) => book.bookID !== parseInt(targetBook.dataset.indexNumber));
-    updateTable();
+    updateTable(myLibrary);
     updateLog();
 }
 
@@ -265,5 +277,5 @@ function sortTable(event) {
             });
             break;
     }
-    updateTable();
+    updateTable(myLibrary);
 }
