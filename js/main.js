@@ -14,7 +14,7 @@ function Book(
     this.bookID = bookID
 }
 
-let myLibrary = bookList; //from bookList.js
+let myLibrary = bookList.splice(0); ///From bookList.js
 
 const submitButton = document.getElementById(`submitButton`);
 const addBookButton = document.getElementById(`addBookButton`);
@@ -80,23 +80,17 @@ function invalidForm() {
 function addBookToLibrary() {
     const newBook = createBook();
     if (inLibrary(newBook)) {
-        const duplicateBook = getDuplicateBook(newBook);
+        const duplicateBook = inLibrary(newBook);
         let confirmMessage = `${duplicateBook.title} by ${duplicateBook.author} is already in your Library with a ID of '${duplicateBook.bookID}'.\n\nDo you still want to add this book?`;
         const confirm = window.confirm(confirmMessage);
         if (!confirm) return;
     }
-    myLibrary.push(newBook);
-}
 
-function getDuplicateBook(newBook) {
-    return myLibrary.find((book) => {
-        if (book.title.toLowerCase() === newBook.title.toLowerCase() &&
-            book.author.toLowerCase() === newBook.author.toLowerCase()) return true;
-    });
+    myLibrary.unshift(newBook);
 }
 
 function inLibrary(newBook) {
-    return myLibrary.some((book) => {
+    return myLibrary.find((book) => {
         if (book.title.toLowerCase() === newBook.title.toLowerCase() &&
             book.author.toLowerCase() === newBook.author.toLowerCase()) return true;
     });
@@ -135,9 +129,9 @@ function createCard(currentBook) {
     const bookAuthor = document.createElement(`td`);
     const coverType = document.createElement(`td`);
     const checkedOut = document.createElement(`td`);
-    const viewIconCell = document.createElement(`td`); //
+    const viewIconCell = document.createElement(`td`);
     const viewIcon = document.createElement(`span`);
-    const removeIconCell = document.createElement(`td`); //
+    const removeIconCell = document.createElement(`td`);
     const removeIcon = document.createElement(`span`);
 
     //Matches the book card with the object
