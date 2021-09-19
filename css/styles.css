@@ -194,7 +194,7 @@ th:nth-child(6) {
 }
 
 
-/* BUTTON */
+/* ADD BOOK BUTTON */
 
 .add-book-button {
     align-items: center;
@@ -385,7 +385,7 @@ input:checked+.slider {
 }
 
 
-/* VIEW BOOK INFO CARD */
+/* BOOK INFO CARD */
 
 .book-info-container {
     background: linear-gradient(135deg, #dad6d6 0%, #aaafb4 100%);

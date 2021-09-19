@@ -18,56 +18,58 @@
 </head>
 
 <body>
-
-    <header class="header-bar">
-        <div class="background-img"></div>
-        <div class="background-img-fade"></div>
-        <div class="header-title">
-            <img src="icons/icon.png" alt="A book logo">
-            <h1>Larson Library</h1>
-        </div>
-        <div class="library-log">
-            <h2>Library Log</h2>
-            <div>
-                <p>Total Books:</p>
-                <span id="bookCount">0</span>
+    <main>
+        <header class="header-bar">
+            <div class="background-img"></div>
+            <div class="background-img-fade"></div>
+            <div class="header-title">
+                <img src="icons/icon.png" alt="A book logo">
+                <h1>Larson Library</h1>
             </div>
-            <div>
-                <p>Checked Out:</p>
-                <span id="checkedOutCount">0</span>
+            <div class="library-log">
+                <h2>Library Log</h2>
+                <div>
+                    <p>Total Books:</p>
+                    <span id="bookCount">0</span>
+                </div>
+                <div>
+                    <p>Checked Out:</p>
+                    <span id="checkedOutCount">0</span>
+                </div>
             </div>
+        </header>
+
+        <div class='search-bar-container'>
+            <input type="text" id="searchBar" class="search-bar" placeholder="Search" autocomplete="off">
         </div>
-    </header>
 
-    <div class='search-bar-container'>
-        <input type="text" id="searchBar" class="search-bar" placeholder="Search" autocomplete="off">
-    </div>
 
-    <table class="book-table">
-        <thead>
-            <tr class="table-header-row">
-                <th>
-                    <a class="table-header-text">Title</a>
-                    <span class="material-icons-outlined header-arrow"></span>
-                </th>
-                <th>
-                    <a class="table-header-text">Author</a>
-                    <span class="material-icons-outlined header-arrow"></span>
-                </th>
-                <th>
-                    <a class="table-header-text">Cover</a>
-                    <span class="material-icons-outlined header-arrow"></span>
-                </th>
-                <th>
-                    <a class="table-header-text">Status</a>
-                    <span class="material-icons-outlined header-arrow"></span>
-                </th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-    </table>
+        <table class="book-table">
+            <thead>
+                <tr class="table-header-row">
+                    <th>
+                        <a class="table-header-text">Title</a>
+                        <span class="material-icons-outlined header-arrow"></span>
+                    </th>
+                    <th>
+                        <a class="table-header-text">Author</a>
+                        <span class="material-icons-outlined header-arrow"></span>
+                    </th>
+                    <th>
+                        <a class="table-header-text">Cover</a>
+                        <span class="material-icons-outlined header-arrow"></span>
+                    </th>
+                    <th>
+                        <a class="table-header-text">Status</a>
+                        <span class="material-icons-outlined header-arrow"></span>
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </main>
 
     <div id="formContainer" class="form-container">
         <form id="addBookForm" class="add-book-form">
