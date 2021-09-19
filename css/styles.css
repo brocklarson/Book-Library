@@ -99,13 +99,31 @@ header h1 {
 }
 
 
+/* SEARCH BAR */
+
+.search-bar-container {
+    margin: 16px 0 16px 3vw;
+    max-width: 94vw;
+    width: 500px;
+}
+
+.search-bar {
+    border-radius: 5px;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    padding: 5px;
+    width: 100%;
+}
+
+
 /* BOOK TABLE */
 
 .book-table {
     border-collapse: collapse;
+    margin-bottom: 80px;
     margin-left: 3vw;
     padding: 0 8px;
-    margin-bottom: 80px;
     table-layout: fixed;
     width: 94vw;
     word-wrap: normal;
@@ -160,7 +178,7 @@ th:nth-child(6) {
 
 .icons-cell span {
     cursor: pointer;
-    font-size: 20px !important;
+    font-size: 1.5em !important;
 }
 
 .remove:hover {
@@ -197,7 +215,7 @@ th:nth-child(6) {
 
 .material-icons-round {
     color: white;
-    font-size: 30px !important;
+    font-size: 2.5em !important;
 }
 
 .add-book-button:hover {
@@ -249,14 +267,14 @@ th:nth-child(6) {
 }
 
 .add-book-input-label {
-    font-size: 20px;
+    font-size: 1.5em;
     margin: 20px 0 8px 0;
     width: 100%;
 }
 
 .add-book-input {
     background: whitesmoke;
-    font-size: 16px;
+    font-size: 1.25em;
     height: max-content;
     margin: 0;
     padding: 5px;
@@ -276,7 +294,7 @@ th:nth-child(6) {
 
 .cover-type-dropdown {
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1.25em;
     height: max-content;
     margin: 0 0 20px 0;
     padding: 5px;
@@ -340,7 +358,7 @@ input:checked+.slider {
     box-shadow: none;
     color: white;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 1.5em;
     height: max-content;
     outline: none;
     padding: 2px;
@@ -387,17 +405,16 @@ input:checked+.slider {
 }
 
 .book-info-container.show {
-    display: grid;
     animation: fadeIn 0.2s ease-in forwards;
+    display: grid;
 }
 
 .book-info-container p {
-    font-size: 16px;
+    font-size: 1.3em;
     margin: 8px 4px;
 }
 
 .italicize {
-    font-size: 14px;
     font-style: italic;
 }
 
@@ -417,9 +434,18 @@ input:checked+.slider {
     }
 }
 
+@media only screen and (min-width: 500px) {
+    .search-bar-container {
+        width: 300px;
+    }
+}
+
 @media only screen and (min-width: 1000px) {
     th:nth-child(6) {
         text-align: center !important;
+        width: 50px;
+    }
+    th:nth-child(6) {
         width: 50px;
     }
     header {
@@ -445,7 +471,4 @@ input:checked+.slider {
         font-size: 1em;
     }
     th:nth-child(5),
-    th:nth-child(6) {
-        width: 50px;
-    }
 }

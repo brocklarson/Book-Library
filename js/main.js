@@ -15,6 +15,7 @@ function Book(
 }
 
 let myLibrary = bookList.splice(0); ///From bookList.js
+let displayLibrary = [] //for showing filtered and sorted books
 
 const submitButton = document.getElementById(`submitButton`);
 const addBookButton = document.getElementById(`addBookButton`);
@@ -27,26 +28,17 @@ const formBackground = document.getElementById(`formBackground`);
 const bookInfoContainer = document.getElementById(`bookInfoContainer`);
 const bookCount = document.getElementById(`bookCount`);
 const checkedOutCount = document.getElementById(`checkedOutCount`);
-
-
 const searchBar = document.getElementById(`searchBar`);
 
-searchBar.addEventListener('input', bookSearch);
-
-function bookSearch() {
-    const search = searchBar.value.toLowerCase();
-    const dispLibrary = myLibrary.filter(book => (book.title.toLowerCase().includes(search) || book.author.toLowerCase().includes(search)));
-    updateTable(dispLibrary);
-}
-
-
-initialize();
 addBookButton.addEventListener(`click`, showBlankForm);
 exitForm.addEventListener(`click`, closeForm);
 exitInfo.addEventListener(`click`, closeForm);
 formBackground.addEventListener(`click`, closeForm);
 table.addEventListener(`click`, handleTableClick);
 submitButton.addEventListener(`click`, operate);
+searchBar.addEventListener('input', bookSearch);
+
+initialize();
 
 function initialize() {
     updateTable(myLibrary);
@@ -277,5 +269,16 @@ function sortTable(event) {
             });
             break;
     }
-    updateTable(myLibrary);
+    displayLibrary = filterBooks();
+    updateTable(displayLibrary);
+}
+
+function filterBooks() {
+    const search = searchBar.value.toLowerCase();
+    return myLibrary.filter(book => (book.title.toLowerCase().includes(search) || book.author.toLowerCase().includes(search)));
+}
+
+function bookSearch() {
+    displayLibrary = filterBooks();
+    updateTable(displayLibrary);
 }
