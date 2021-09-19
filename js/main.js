@@ -15,7 +15,6 @@ function Book(
 }
 
 let myLibrary = bookList.splice(0); ///From bookList.js
-let displayLibrary = [] //for showing filtered and sorted books
 
 const submitButton = document.getElementById(`submitButton`);
 const addBookButton = document.getElementById(`addBookButton`);
@@ -36,12 +35,12 @@ exitInfo.addEventListener(`click`, closeForm);
 formBackground.addEventListener(`click`, closeForm);
 table.addEventListener(`click`, handleTableClick);
 submitButton.addEventListener(`click`, operate);
-searchBar.addEventListener('input', bookSearch);
+searchBar.addEventListener('input', updateTable);
 
 initialize();
 
 function initialize() {
-    updateTable(myLibrary);
+    updateTable();
     updateLog();
 }
 
@@ -53,7 +52,7 @@ function operate(event) {
     addBookToLibrary();
     closeForm();
 
-    updateTable(myLibrary);
+    updateTable();
     updateLog();
 }
 
@@ -110,11 +109,12 @@ function createBook() {
     return new Book(title, author, coverType, checkedOut, notes, bookID);
 }
 
-function updateTable(myLibrary) {
-    removeAllRows()
-    if (!myLibrary.length) return;
-    for (let i = 0; i < myLibrary.length; i++) {
-        createCard(myLibrary[i]);
+function updateTable() {
+    removeAllRows();
+    const displayLibrary = filterBooks();
+    if (!displayLibrary.length) return;
+    for (let i = 0; i < displayLibrary.length; i++) {
+        createCard(displayLibrary[i]);
     }
 }
 
@@ -195,14 +195,15 @@ function changeBookStatus(event) {
 
     if (event.target.innerText === `Available`) myLibrary[targetBook].checkedOut = true;
     else myLibrary[targetBook].checkedOut = false;
-    updateTable(myLibrary);
+
+    updateTable();
     updateLog();
 }
 
 function removeBook(event) {
     const targetBook = event.target.parentNode.parentNode;
     myLibrary = myLibrary.filter((book) => book.bookID !== parseInt(targetBook.dataset.indexNumber));
-    updateTable(myLibrary);
+    updateTable();
     updateLog();
 }
 
@@ -269,16 +270,10 @@ function sortTable(event) {
             });
             break;
     }
-    displayLibrary = filterBooks();
-    updateTable(displayLibrary);
+    updateTable();
 }
 
 function filterBooks() {
     const search = searchBar.value.toLowerCase();
     return myLibrary.filter(book => (book.title.toLowerCase().includes(search) || book.author.toLowerCase().includes(search)));
-}
-
-function bookSearch() {
-    displayLibrary = filterBooks();
-    updateTable(displayLibrary);
 }
