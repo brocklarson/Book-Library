@@ -205,7 +205,7 @@ function handleTableClick(event) {
 function removeBook(event) {
     const targetBook = event.target.parentNode.parentNode;
 
-    const confirmMessage = `Remove ${targetBook.firstChild.innerText} by ${targetBook.firstChild.nextSibling.innerText} from the library?`;
+    const confirmMessage = `Remove '${targetBook.firstChild.innerText}' by '${targetBook.firstChild.nextSibling.innerText}' from the library?`;
     const confirm = window.confirm(confirmMessage);
     if (!confirm) return;
 
