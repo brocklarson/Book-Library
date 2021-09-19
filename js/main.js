@@ -1,3 +1,4 @@
+//CONSTRUCTORS
 function Book(
     title = "Unknown",
     author = "Unknown",
@@ -14,8 +15,7 @@ function Book(
     this.bookID = bookID
 }
 
-let myLibrary = bookList.splice(0); ///From bookList.js
-
+//GLOBALS
 const submitButton = document.getElementById(`submitButton`);
 const addBookButton = document.getElementById(`addBookButton`);
 const exitForm = document.getElementById(`closeForm`);
@@ -29,36 +29,75 @@ const bookCount = document.getElementById(`bookCount`);
 const checkedOutCount = document.getElementById(`checkedOutCount`);
 const searchBar = document.getElementById(`searchBar`);
 
-addBookButton.addEventListener(`click`, showBlankForm);
+//LISTENERS
+addBookButton.addEventListener(`click`, showForm);
 exitForm.addEventListener(`click`, closeForm);
 exitInfo.addEventListener(`click`, closeForm);
 formBackground.addEventListener(`click`, closeForm);
 table.addEventListener(`click`, handleTableClick);
-submitButton.addEventListener(`click`, operate);
+submitButton.addEventListener(`click`, submitBook);
 searchBar.addEventListener('input', updateTable);
 
-initialize();
+//INITIALIZE
+let myLibrary = bookList.splice(0); //From bookList.js
+update();
 
-function initialize() {
+//UPDATE DISPLAY
+function update() {
     updateTable();
     updateLog();
 }
 
-function operate(event) {
-    event.preventDefault();
-    if (invalidForm()) {
-        return;
+function updateTable() {
+    resetTable();
+    const displayLibrary = filterBooks();
+    if (!displayLibrary.length) return;
+    for (let i = 0; i < displayLibrary.length; i++) {
+        createCard(displayLibrary[i]);
     }
-    addBookToLibrary();
-    closeForm();
+}
 
-    updateTable();
-    updateLog();
+function resetTable() {
+    let i = 0
+    while (bookTable.firstChild || i > 10000) {
+        i++;
+        bookTable.removeChild(bookTable.firstChild);
+    }
 }
 
 function updateLog() {
     bookCount.innerText = myLibrary.length;
     checkedOutCount.innerText = myLibrary.filter(book => book.checkedOut === true).length;
+}
+
+function filterBooks() {
+    const search = searchBar.value.toLowerCase();
+    return myLibrary.filter(book => (book.title.toLowerCase().includes(search) || book.author.toLowerCase().includes(search)));
+}
+
+//HANDLE FORM
+function showForm() {
+    document.getElementById(`bookTitle`).value = ``;
+    document.getElementById(`bookAuthor`).value = ``;
+    document.getElementById(`coverType`).value = `Paperback`;
+    document.getElementById(`optionalNotes`).value = ``;
+    document.getElementById(`checkedOutSwitch`).checked = false;
+    formContainer.classList.add(`show`);
+    formBackground.classList.add(`show`);
+}
+
+function closeForm() {
+    formContainer.classList.remove(`show`);
+    formBackground.classList.remove(`show`);
+    bookInfoContainer.classList.remove(`show`);
+}
+
+function submitBook(event) {
+    event.preventDefault();
+    if (invalidForm()) return;
+    addBookToLibrary();
+    closeForm();
+    update();
 }
 
 function invalidForm() {
@@ -82,14 +121,19 @@ function invalidForm() {
 
 function addBookToLibrary() {
     const newBook = createBook();
-    if (inLibrary(newBook)) {
-        const duplicateBook = inLibrary(newBook);
+    if (isDuplicate(newBook)) return;
+    myLibrary.unshift(newBook);
+}
+
+
+function isDuplicate(newBook) {
+    const duplicateBook = inLibrary(newBook);
+    if (duplicateBook) {
         let confirmMessage = `${duplicateBook.title} by ${duplicateBook.author} is already in your Library with a ID of '${duplicateBook.bookID}'.\n\nDo you still want to add this book?`;
         const confirm = window.confirm(confirmMessage);
-        if (!confirm) return;
+        if (!confirm) return true;
     }
-
-    myLibrary.unshift(newBook);
+    return false;
 }
 
 function inLibrary(newBook) {
@@ -99,6 +143,7 @@ function inLibrary(newBook) {
     });
 }
 
+//NEW BOOKS
 function createBook() {
     const title = addBookForm.elements[`bookTitle`].value;
     const author = addBookForm.elements[`bookAuthor`].value;
@@ -107,23 +152,6 @@ function createBook() {
     const notes = addBookForm.elements[`optionalNotes`].value;
     const bookID = myLibrary.indexOf(myLibrary.at(-1)) + 1;
     return new Book(title, author, coverType, checkedOut, notes, bookID);
-}
-
-function updateTable() {
-    removeAllRows();
-    const displayLibrary = filterBooks();
-    if (!displayLibrary.length) return;
-    for (let i = 0; i < displayLibrary.length; i++) {
-        createCard(displayLibrary[i]);
-    }
-}
-
-function removeAllRows() {
-    let i = 0
-    while (bookTable.firstChild || i > 10000) {
-        i++;
-        bookTable.removeChild(bookTable.firstChild);
-    }
 }
 
 function createCard(currentBook) {
@@ -166,48 +194,21 @@ function createCard(currentBook) {
     removeIconCell.appendChild(removeIcon);
 }
 
-function showBlankForm() {
-    document.getElementById(`bookTitle`).value = ``;
-    document.getElementById(`bookAuthor`).value = ``;
-    document.getElementById(`coverType`).value = `Paperback`;
-    document.getElementById(`optionalNotes`).value = ``;
-    document.getElementById(`checkedOutSwitch`).checked = false;
-    formContainer.classList.add(`show`);
-    formBackground.classList.add(`show`);
-}
-
-function closeForm() {
-    formContainer.classList.remove(`show`);
-    formBackground.classList.remove(`show`);
-    bookInfoContainer.classList.remove(`show`);
-}
-
+//TABLE FUNCTIONALITY
 function handleTableClick(event) {
     if (event.target.classList.contains(`remove`)) removeBook(event);
-    else if (event.target.classList.contains(`view`)) viewBook(event);
+    else if (event.target.classList.contains(`view`)) viewBookInfo(event);
     else if (event.target.classList.contains(`checked-out-cell`)) changeBookStatus(event);
-    else if (event.target.classList.contains(`table-header-text`)) sortTable(event);
-}
-
-function changeBookStatus(event) {
-    const rowIndexNumber = parseInt(event.target.parentNode.dataset.indexNumber);
-    const targetBook = myLibrary.findIndex(book => book.bookID === rowIndexNumber);
-
-    if (event.target.innerText === `Available`) myLibrary[targetBook].checkedOut = true;
-    else myLibrary[targetBook].checkedOut = false;
-
-    updateTable();
-    updateLog();
+    else if (event.target.classList.contains(`table-header-text`)) handleSorting(event);
 }
 
 function removeBook(event) {
     const targetBook = event.target.parentNode.parentNode;
     myLibrary = myLibrary.filter((book) => book.bookID !== parseInt(targetBook.dataset.indexNumber));
-    updateTable();
-    updateLog();
+    update();
 }
 
-function viewBook(event) {
+function viewBookInfo(event) {
     const rowIndexNumber = parseInt(event.target.parentNode.parentNode.dataset.indexNumber);
     const targetBook = myLibrary.findIndex(book => book.bookID === rowIndexNumber);
 
@@ -222,58 +223,62 @@ function viewBook(event) {
     formBackground.classList.add(`show`);
 }
 
-function getSortDirection(event) {
-    const headerArrow = event.target.parentNode.lastElementChild;
-    const resetArrows = document.querySelectorAll(`.header-arrow`);
+function changeBookStatus(event) {
+    const rowIndexNumber = parseInt(event.target.parentNode.dataset.indexNumber);
+    const targetBook = myLibrary.findIndex(book => book.bookID === rowIndexNumber);
 
+    if (event.target.innerText === `Available`) myLibrary[targetBook].checkedOut = true;
+    else myLibrary[targetBook].checkedOut = false;
 
-    for (let i = 0; i < resetArrows.length; i++) {
-        if (headerArrow !== resetArrows[i]) {
-            resetArrows[i].innerText = ``;
-        }
-    }
-
-    if (headerArrow.innerText === `` || headerArrow.innerText === `expand_more`) {
-        headerArrow.innerText = `expand_less`;
-        return `ascending`;
-    } else if (headerArrow.innerText === `expand_less`) {
-        headerArrow.innerText = `expand_more`;
-        return `descending`;
-    }
+    update();
 }
 
-function getSorter(event) {
+function handleSorting(event) {
+    if (event.target.innerText === ``) return;
+    let sortParam = getSortParameter(event);
+    const sortDirection = getSortDirection(event);
+    sortLibrary(sortDirection, sortParam);
+    update();
+}
+
+function getSortParameter(event) {
     if (event.target.innerText === `Status`) return `checkedOut`;
     else if (event.target.innerText === `Title`) return `title`;
     else if (event.target.innerText === `Author`) return `author`;
     else if (event.target.innerText === `Cover`) return `coverType`;
 }
 
-function sortTable(event) {
-    if (event.target.innerText === ``) return;
-    let sorter = getSorter(event);
-    const sortDirection = getSortDirection(event);
+function getSortDirection(event) {
+    const sortArrow = event.target.parentNode.lastElementChild;
+    const resetArrows = document.querySelectorAll(`.header-arrow`);
 
-    switch (sortDirection) {
-        case `ascending`:
-            myLibrary = myLibrary.sort(function(a, b) {
-                if (a[sorter].toString().toLowerCase() > b[sorter].toString().toLowerCase()) return 1;
-                else if (a[sorter].toString().toLowerCase() === b[sorter].toString().toLowerCase()) return 0;
-                else return -1;
-            });
-            break;
-        case `descending`:
-            myLibrary = myLibrary.sort(function(a, b) {
-                if (a[sorter].toString().toLowerCase() > b[sorter].toString().toLowerCase()) return -1;
-                else if (a[sorter].toString().toLowerCase() === b[sorter].toString().toLowerCase()) return 0;
-                else return 1;
-            });
-            break;
+    for (let i = 0; i < resetArrows.length; i++) {
+        if (sortArrow !== resetArrows[i]) {
+            resetArrows[i].innerText = ``;
+        }
     }
-    updateTable();
+
+    if (sortArrow.innerText === `` || sortArrow.innerText === `expand_more`) {
+        sortArrow.innerText = `expand_less`;
+        return `ascending`;
+    } else if (sortArrow.innerText === `expand_less`) {
+        sortArrow.innerText = `expand_more`;
+        return `descending`;
+    }
 }
 
-function filterBooks() {
-    const search = searchBar.value.toLowerCase();
-    return myLibrary.filter(book => (book.title.toLowerCase().includes(search) || book.author.toLowerCase().includes(search)));
+function sortLibrary(sortDirection, sortParam) {
+    if (sortDirection === `ascending`) {
+        myLibrary = myLibrary.sort(function(a, b) {
+            if (a[sortParam].toString().toLowerCase() > b[sortParam].toString().toLowerCase()) return 1;
+            else if (a[sortParam].toString().toLowerCase() === b[sortParam].toString().toLowerCase()) return 0;
+            else return -1;
+        });
+    } else if (sortDirection === `descending`) {
+        myLibrary = myLibrary.sort(function(a, b) {
+            if (a[sortParam].toString().toLowerCase() > b[sortParam].toString().toLowerCase()) return -1;
+            else if (a[sortParam].toString().toLowerCase() === b[sortParam].toString().toLowerCase()) return 0;
+            else return 1;
+        });
+    }
 }
