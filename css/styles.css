@@ -109,7 +109,7 @@ header h1 {
 
 .search-bar {
     border-radius: 5px;
-    font-size: 1em;
+    font-size: 0.9em;
     margin: 0;
     padding: 0;
     padding: 5px;
@@ -130,7 +130,7 @@ header h1 {
 }
 
 .book-table th {
-    font-size: 0.8em;
+    font-size: 0.9em;
     padding: 8px 0;
     text-align: left;
 }
@@ -155,7 +155,7 @@ th:nth-child(6) {
 }
 
 .book-table td {
-    font-size: 0.7em;
+    font-size: 0.8em;
     padding: 8px 4px 8px 0;
     text-align: left;
     word-wrap: break-word;

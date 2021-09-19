@@ -40,10 +40,10 @@ searchBar.addEventListener('input', updateTable);
 
 //INITIALIZE
 let myLibrary = bookList.splice(0); //From bookList.js
-update();
+updateDisplay();
 
 //UPDATE DISPLAY
-function update() {
+function updateDisplay() {
     updateTable();
     updateLog();
 }
@@ -53,7 +53,7 @@ function updateTable() {
     const displayLibrary = filterBooks();
     if (!displayLibrary.length) return;
     for (let i = 0; i < displayLibrary.length; i++) {
-        createCard(displayLibrary[i]);
+        createRow(displayLibrary[i]);
     }
 }
 
@@ -97,7 +97,7 @@ function submitBook(event) {
     if (invalidForm()) return;
     addBookToLibrary();
     closeForm();
-    update();
+    updateDisplay();
 }
 
 function invalidForm() {
@@ -129,7 +129,7 @@ function addBookToLibrary() {
 function isDuplicate(newBook) {
     const duplicateBook = inLibrary(newBook);
     if (duplicateBook) {
-        let confirmMessage = `${duplicateBook.title} by ${duplicateBook.author} is already in your Library with a ID of '${duplicateBook.bookID}'.\n\nDo you still want to add this book?`;
+        const confirmMessage = `${duplicateBook.title} by ${duplicateBook.author} is already in your Library with a ID of '${duplicateBook.bookID}'.\n\nDo you still want to add this book?`;
         const confirm = window.confirm(confirmMessage);
         if (!confirm) return true;
     }
@@ -154,7 +154,7 @@ function createBook() {
     return new Book(title, author, coverType, checkedOut, notes, bookID);
 }
 
-function createCard(currentBook) {
+function createRow(currentBook) {
 
     const bookCard = document.createElement(`tr`);
     const bookTitle = document.createElement(`td`);
@@ -204,8 +204,13 @@ function handleTableClick(event) {
 
 function removeBook(event) {
     const targetBook = event.target.parentNode.parentNode;
+
+    const confirmMessage = `Remove ${targetBook.firstChild.innerText} by ${targetBook.firstChild.nextSibling.innerText} from the library?`;
+    const confirm = window.confirm(confirmMessage);
+    if (!confirm) return;
+
     myLibrary = myLibrary.filter((book) => book.bookID !== parseInt(targetBook.dataset.indexNumber));
-    update();
+    updateDisplay();
 }
 
 function viewBookInfo(event) {
@@ -230,7 +235,7 @@ function changeBookStatus(event) {
     if (event.target.innerText === `Available`) myLibrary[targetBook].checkedOut = true;
     else myLibrary[targetBook].checkedOut = false;
 
-    update();
+    updateDisplay();
 }
 
 function handleSorting(event) {
@@ -238,7 +243,7 @@ function handleSorting(event) {
     let sortParam = getSortParameter(event);
     const sortDirection = getSortDirection(event);
     sortLibrary(sortDirection, sortParam);
-    update();
+    updateDisplay();
 }
 
 function getSortParameter(event) {
@@ -246,6 +251,7 @@ function getSortParameter(event) {
     else if (event.target.innerText === `Title`) return `title`;
     else if (event.target.innerText === `Author`) return `author`;
     else if (event.target.innerText === `Cover`) return `coverType`;
+    else return `BookID`;
 }
 
 function getSortDirection(event) {
@@ -261,7 +267,7 @@ function getSortDirection(event) {
     if (sortArrow.innerText === `` || sortArrow.innerText === `expand_more`) {
         sortArrow.innerText = `expand_less`;
         return `ascending`;
-    } else if (sortArrow.innerText === `expand_less`) {
+    } else {
         sortArrow.innerText = `expand_more`;
         return `descending`;
     }
