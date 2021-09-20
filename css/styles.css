@@ -318,6 +318,7 @@ th:nth-child(6) {
 
 .toggle .on-off-label {
     display: inline-block;
+    font-size: 1.5em;
 }
 
 .slider {
@@ -441,10 +442,7 @@ input:checked+.slider {
 }
 
 @media only screen and (min-width: 1000px) {
-    th:nth-child(6) {
-        text-align: center !important;
-        width: 50px;
-    }
+    th:nth-child(5),
     th:nth-child(6) {
         width: 50px;
     }
@@ -470,5 +468,4 @@ input:checked+.slider {
     .book-table td {
         font-size: 1em;
     }
-    th:nth-child(5),
 }

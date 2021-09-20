@@ -47,7 +47,7 @@ function updateDisplay() {
     if (!myLibrary) return;
     updateTable();
     updateLog();
-    updateStorage();
+    updateLocalStorage();
 }
 
 function updateTable() {
@@ -248,7 +248,7 @@ function findBookIndex(event) {
 
 function handleSorting(event) {
     if (event.target.innerText === ``) return;
-    let sortParam = getSortParameter(event);
+    const sortParam = getSortParameter(event);
     const sortDirection = getSortDirection(event);
     sortLibrary(sortDirection, sortParam);
     updateDisplay();
@@ -298,7 +298,7 @@ function sortLibrary(sortDirection, sortParam) {
 }
 
 // LOCAL STORAGE //
-function updateStorage() {
+function updateLocalStorage() {
     if (storageAvailable('localStorage')) {
         localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
     }
