@@ -40,12 +40,16 @@ searchBar.addEventListener('input', updateTable);
 
 //INITIALIZE
 let myLibrary = bookList.splice(0); //From bookList.js
+checkLocalStorage();
+sortLibrary(`ascending`, `bookID`);
 updateDisplay();
 
 //UPDATE DISPLAY
 function updateDisplay() {
+    if (!myLibrary) return;
     updateTable();
     updateLog();
+    updateStorage();
 }
 
 function updateTable() {
@@ -204,7 +208,6 @@ function handleTableClick(event) {
 
 function removeBook(event) {
     const targetBook = event.target.parentNode.parentNode;
-
     const confirmMessage = `Remove '${targetBook.firstChild.innerText}' by '${targetBook.firstChild.nextSibling.innerText}' from the library?`;
     const confirm = window.confirm(confirmMessage);
     if (!confirm) return;
@@ -286,5 +289,45 @@ function sortLibrary(sortDirection, sortParam) {
             else if (a[sortParam].toString().toLowerCase() === b[sortParam].toString().toLowerCase()) return 0;
             else return 1;
         });
+    }
+}
+
+// LOCAL STORAGE //
+function updateStorage() {
+    if (storageAvailable('localStorage')) {
+        localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+    }
+}
+
+function checkLocalStorage() {
+    if (storageAvailable('localStorage')) {
+        if (localStorage.getItem('myLibrary')) {
+            myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+        }
+    }
+}
+
+
+function storageAvailable(type) {
+    let storage;
+    try {
+        storage = window[type];
+        let x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    } catch (e) {
+        return e instanceof DOMException && (
+                // everything except Firefox
+                e.code === 22 ||
+                // Firefox
+                e.code === 1014 ||
+                // test name field too, because code might not be present
+                // everything except Firefox
+                e.name === 'QuotaExceededError' ||
+                // Firefox
+                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
     }
 }
