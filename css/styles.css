@@ -211,6 +211,7 @@ th:nth-child(6) {
     position: fixed;
     right: 0;
     width: 40px;
+    z-index: 2;
 }
 
 .material-icons-round {
@@ -248,7 +249,7 @@ th:nth-child(6) {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 95vw;
-    z-index: 2;
+    z-index: 5;
 }
 
 .form-background {
@@ -259,7 +260,7 @@ th:nth-child(6) {
     position: fixed;
     right: 0;
     top: 0;
-    z-index: 1;
+    z-index: 4;
 }
 
 .form-background.show {
@@ -402,7 +403,7 @@ input:checked+.slider {
     top: 50%;
     transform: translate(-50%, -50%);
     width: max-content;
-    z-index: 2;
+    z-index: 5;
 }
 
 .book-info-container.show {
@@ -417,6 +418,34 @@ input:checked+.slider {
 
 .italicize {
     font-style: italic;
+}
+
+
+/* FOOTER */
+
+footer {
+    align-items: center;
+    background-color: white;
+    bottom: 0;
+    color: black;
+    display: flex;
+    font-family: sans-serif;
+    font-size: 1em;
+    gap: 10px;
+    justify-content: center;
+    padding: 8px 0 8px 0;
+    position: fixed;
+    width: 100%;
+}
+
+.fa-github {
+    color: black;
+    font-size: 1em;
+    transition: transform 0.3s ease-in-out;
+}
+
+.fa-github:hover {
+    transform: rotate(360deg) scale(1.2);
 }
 
 
@@ -442,10 +471,10 @@ input:checked+.slider {
 }
 
 @media only screen and (min-width: 1000px) {
-    th:nth-child(5),
     th:nth-child(6) {
         width: 50px;
     }
+    th:nth-child(5),
     header {
         flex-direction: row;
         justify-content: space-evenly;
