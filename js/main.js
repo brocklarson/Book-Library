@@ -1,4 +1,3 @@
-//CONSTRUCTORS
 function Book(
     title = "Unknown",
     author = "Unknown",
@@ -15,7 +14,6 @@ function Book(
     this.bookID = bookID
 }
 
-//GLOBALS
 const submitButton = document.getElementById(`submitButton`);
 const addBookButton = document.getElementById(`addBookButton`);
 const exitForm = document.getElementById(`closeForm`);
@@ -40,12 +38,16 @@ searchBar.addEventListener('input', updateTable);
 
 //INITIALIZE
 let myLibrary = bookList.splice(0); //From bookList.js
+getLocalStorage();
+sortLibrary(`ascending`, `bookID`);
 updateDisplay();
 
 //UPDATE DISPLAY
 function updateDisplay() {
+    if (!myLibrary) return;
     updateTable();
     updateLog();
+    updateStorage();
 }
 
 function updateTable() {
@@ -156,7 +158,7 @@ function createBook() {
 
 function createRow(currentBook) {
 
-    const bookCard = document.createElement(`tr`);
+    const bookRow = document.createElement(`tr`);
     const bookTitle = document.createElement(`td`);
     const bookAuthor = document.createElement(`td`);
     const coverType = document.createElement(`td`);
@@ -166,8 +168,8 @@ function createRow(currentBook) {
     const removeIconCell = document.createElement(`td`);
     const removeIcon = document.createElement(`span`);
 
-    //Matches the book card with the object
-    bookCard.dataset.indexNumber = currentBook.bookID;
+    //Matches the book row with the object
+    bookRow.dataset.indexNumber = currentBook.bookID;
 
     bookTitle.innerText = currentBook.title;
     bookAuthor.innerText = currentBook.author;
@@ -182,13 +184,13 @@ function createRow(currentBook) {
     removeIcon.classList.add(`material-icons-outlined`, `remove`);
     checkedOut.classList.add(`checked-out-cell`);
 
-    bookTable.appendChild(bookCard);
-    bookCard.appendChild(bookTitle);
-    bookCard.appendChild(bookAuthor);
-    bookCard.appendChild(coverType);
-    bookCard.appendChild(checkedOut);
-    bookCard.appendChild(viewIconCell);
-    bookCard.appendChild(removeIconCell);
+    bookTable.appendChild(bookRow);
+    bookRow.appendChild(bookTitle);
+    bookRow.appendChild(bookAuthor);
+    bookRow.appendChild(coverType);
+    bookRow.appendChild(checkedOut);
+    bookRow.appendChild(viewIconCell);
+    bookRow.appendChild(removeIconCell);
 
     viewIconCell.appendChild(viewIcon);
     removeIconCell.appendChild(removeIcon);
@@ -203,19 +205,18 @@ function handleTableClick(event) {
 }
 
 function removeBook(event) {
-    const targetBook = event.target.parentNode.parentNode;
+    const targetBook = findBookIndex(event);
 
-    const confirmMessage = `Remove '${targetBook.firstChild.innerText}' by '${targetBook.firstChild.nextSibling.innerText}' from the library?`;
+    const confirmMessage = `Remove '${myLibrary[targetBook].title}' by '${myLibrary[targetBook].author}' from the library?`;
     const confirm = window.confirm(confirmMessage);
     if (!confirm) return;
 
-    myLibrary = myLibrary.filter((book) => book.bookID !== parseInt(targetBook.dataset.indexNumber));
+    myLibrary.splice(targetBook, 1);
     updateDisplay();
 }
 
 function viewBookInfo(event) {
-    const rowIndexNumber = parseInt(event.target.parentNode.parentNode.dataset.indexNumber);
-    const targetBook = myLibrary.findIndex(book => book.bookID === rowIndexNumber);
+    const targetBook = findBookIndex(event);
 
     document.getElementById(`bookInfoID`).innerText = myLibrary[targetBook].bookID;
     document.getElementById(`bookInfoTitle`).innerText = myLibrary[targetBook].title;
@@ -228,14 +229,21 @@ function viewBookInfo(event) {
     formBackground.classList.add(`show`);
 }
 
-function changeBookStatus(event) {
-    const rowIndexNumber = parseInt(event.target.parentNode.dataset.indexNumber);
-    const targetBook = myLibrary.findIndex(book => book.bookID === rowIndexNumber);
 
+function changeBookStatus(event) {
+    const targetBook = findBookIndex(event);
     if (event.target.innerText === `Available`) myLibrary[targetBook].checkedOut = true;
     else myLibrary[targetBook].checkedOut = false;
 
     updateDisplay();
+}
+
+function findBookIndex(event) {
+    let rowIndexNumber = parseInt(event.target.parentNode.dataset.indexNumber);
+    if (event.target.tagName.toLowerCase() === `span`) {
+        rowIndexNumber = parseInt(event.target.parentNode.parentNode.dataset.indexNumber);
+    }
+    return myLibrary.findIndex(book => book.bookID === rowIndexNumber);
 }
 
 function handleSorting(event) {
@@ -286,5 +294,44 @@ function sortLibrary(sortDirection, sortParam) {
             else if (a[sortParam].toString().toLowerCase() === b[sortParam].toString().toLowerCase()) return 0;
             else return 1;
         });
+    }
+}
+
+// LOCAL STORAGE //
+function updateStorage() {
+    if (storageAvailable('localStorage')) {
+        localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+    }
+}
+
+function getLocalStorage() {
+    if (storageAvailable('localStorage')) {
+        if (localStorage.getItem('myLibrary')) {
+            myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+        }
+    }
+}
+
+function storageAvailable(type) {
+    let storage;
+    try {
+        storage = window[type];
+        let x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    } catch (e) {
+        return e instanceof DOMException && (
+                // everything except Firefox
+                e.code === 22 ||
+                // Firefox
+                e.code === 1014 ||
+                // test name field too, because code might not be present
+                // everything except Firefox
+                e.name === 'QuotaExceededError' ||
+                // Firefox
+                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
     }
 }
