@@ -14,6 +14,11 @@ function Book(
     this.bookID = bookID
 }
 
+Book.prototype.checkOut = function() {
+    if (this.checkedOut) this.checkedOut = false;
+    else this.checkedOut = true;
+};
+
 const submitButton = document.getElementById(`submitButton`);
 const addBookButton = document.getElementById(`addBookButton`);
 const exitForm = document.getElementById(`closeForm`);
@@ -37,7 +42,8 @@ submitButton.addEventListener(`click`, submitBook);
 searchBar.addEventListener('input', updateTable);
 
 //INITIALIZE
-let myLibrary = bookList.splice(0); //From bookList.js
+let myLibrary = [];
+
 getLocalStorage();
 sortLibrary(`ascending`, `bookID`);
 updateDisplay();
@@ -229,12 +235,9 @@ function viewBookInfo(event) {
     formBackground.classList.add(`show`);
 }
 
-
 function changeBookStatus(event) {
     const targetBook = findBookIndex(event);
-    if (event.target.innerText === `Available`) myLibrary[targetBook].checkedOut = true;
-    else myLibrary[targetBook].checkedOut = false;
-
+    myLibrary[targetBook].checkOut();
     updateDisplay();
 }
 
@@ -307,9 +310,14 @@ function updateLocalStorage() {
 function getLocalStorage() {
     if (storageAvailable('localStorage')) {
         if (localStorage.getItem('myLibrary')) {
-            myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-        }
-    }
+            myLibrary = [];
+            storageLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+            storageLibrary.forEach((book) => {
+                const newBook = new Book(book.title, book.author, book.coverType, book.checkedOut, book.notes, book.bookID);
+                myLibrary.push(newBook);
+            });
+        } else useMyLibrary();
+    } else useMyLibrary();
 }
 
 function storageAvailable(type) {
@@ -334,4 +342,11 @@ function storageAvailable(type) {
             // acknowledge QuotaExceededError only if there's something already stored
             (storage && storage.length !== 0);
     }
+}
+
+function useMyLibrary() {
+    bookList.forEach((book) => { //from bookList.js
+        const newBook = new Book(book.title, book.author, book.coverType, book.checkedOut, book.notes, book.bookID);
+        myLibrary.push(newBook);
+    });
 }
