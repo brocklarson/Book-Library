@@ -163,6 +163,7 @@ th:nth-child(6) {
 
 .checked-out-cell {
     cursor: pointer;
+    color: rgb(21, 101, 192);
 }
 
 .book-table tr {

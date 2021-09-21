@@ -1743,7 +1743,7 @@ let bookList = [{
         "bookID": 217
     },
     {
-        "title": "My Fair Lady (German?)",
+        "title": "My Fair Lady (German)",
         "author": "Alan Jay Lerner",
         "coverType": "Paperback",
         "checkedOut": false,

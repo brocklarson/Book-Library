@@ -19,6 +19,7 @@ Book.prototype.checkOut = function() {
     else this.checkedOut = true;
 };
 
+let myLibrary = [];
 const submitButton = document.getElementById(`submitButton`);
 const addBookButton = document.getElementById(`addBookButton`);
 const exitForm = document.getElementById(`closeForm`);
@@ -42,11 +43,21 @@ submitButton.addEventListener(`click`, submitBook);
 searchBar.addEventListener('input', updateTable);
 
 //INITIALIZE
-let myLibrary = [];
+initialize();
 
-getLocalStorage();
-sortLibrary(`ascending`, `bookID`);
-updateDisplay();
+function initialize() {
+    myLibrary = bookList.splice(0); //from bookList.js
+    getLocalStorage();
+    setPrototype();
+    sortLibrary(`ascending`, `bookID`);
+    updateDisplay();
+}
+
+function setPrototype() {
+    myLibrary.forEach((book) => {
+        Object.setPrototypeOf(book, Book.prototype);
+    });
+}
 
 //UPDATE DISPLAY
 function updateDisplay() {
@@ -285,6 +296,11 @@ function getSortDirection(event) {
 }
 
 function sortLibrary(sortDirection, sortParam) {
+    if (sortParam === `bookID`) {
+        myLibrary = myLibrary.sort((a, b) => (a[sortParam] > b[sortParam]) ? 1 : -1);
+        return;
+    }
+
     if (sortDirection === `ascending`) {
         myLibrary = myLibrary.sort(function(a, b) {
             if (a[sortParam].toString().toLowerCase() > b[sortParam].toString().toLowerCase()) return 1;
@@ -310,14 +326,9 @@ function updateLocalStorage() {
 function getLocalStorage() {
     if (storageAvailable('localStorage')) {
         if (localStorage.getItem('myLibrary')) {
-            myLibrary = [];
-            storageLibrary = JSON.parse(localStorage.getItem('myLibrary'));
-            storageLibrary.forEach((book) => {
-                const newBook = new Book(book.title, book.author, book.coverType, book.checkedOut, book.notes, book.bookID);
-                myLibrary.push(newBook);
-            });
-        } else useMyLibrary();
-    } else useMyLibrary();
+            myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+        }
+    }
 }
 
 function storageAvailable(type) {
@@ -342,11 +353,4 @@ function storageAvailable(type) {
             // acknowledge QuotaExceededError only if there's something already stored
             (storage && storage.length !== 0);
     }
-}
-
-function useMyLibrary() {
-    bookList.forEach((book) => { //from bookList.js
-        const newBook = new Book(book.title, book.author, book.coverType, book.checkedOut, book.notes, book.bookID);
-        myLibrary.push(newBook);
-    });
 }
