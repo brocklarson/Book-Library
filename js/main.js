@@ -1,23 +1,24 @@
-function Book(
-    title = "Unknown",
-    author = "Unknown",
-    coverType = "Unknown",
-    checkedOut = false,
-    notes = "none",
-    bookID = null
-) {
-    this.title = title
-    this.author = author
-    this.coverType = coverType
-    this.checkedOut = checkedOut
-    this.notes = notes
-    this.bookID = bookID
-}
+class Book {
+    constructor(title = "Unknown",
+        author = "Unknown",
+        coverType = "Unknown",
+        checkedOut = false,
+        notes = "none",
+        bookID = null
+    ) {
+        this.title = title
+        this.author = author
+        this.coverType = coverType
+        this.checkedOut = checkedOut
+        this.notes = notes
+        this.bookID = bookID
+    }
 
-Book.prototype.checkOut = function() {
-    if (this.checkedOut) this.checkedOut = false;
-    else this.checkedOut = true;
-};
+    checkOut() {
+        if (this.checkedOut) this.checkedOut = false;
+        else this.checkedOut = true;
+    };
+}
 
 let myLibrary = [];
 const submitButton = document.getElementById(`submitButton`);
