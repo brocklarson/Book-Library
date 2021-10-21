@@ -104,18 +104,18 @@ const storage = (() => {
 
 const libraryLog = (() => {
     //CACHE DOM
-    const bookCount = document.getElementById(`bookCount`);
-    const checkedOutCount = document.getElementById(`checkedOutCount`);
+    const _bookCount = document.getElementById(`bookCount`);
+    const _checkedOutCount = document.getElementById(`checkedOutCount`);
 
     function updateLog() {
-        bookCount.innerText = myLibrary.length;
-        checkedOutCount.innerText = myLibrary.filter(book => book.checkedOut === true).length;
+        _bookCount.innerText = myLibrary.length;
+        _checkedOutCount.innerText = myLibrary.filter(book => book.checkedOut === true).length;
     }
 
     return { updateLog }
 })();
 
-const bookModule = (() => {
+const addBookModule = (() => {
     //CACHE DOM
     const formBackground = document.getElementById(`formBackground`);
     const formContainer = document.getElementById(`formContainer`);
