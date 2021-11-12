@@ -150,7 +150,7 @@ const addBookModule = (() => {
         if (invalidForm()) return;
         addBookToLibrary();
         closeForm();
-        updateDisplay();
+        tableModule.updateDisplay();
     }
 
     function invalidForm() {
@@ -390,4 +390,5 @@ const tableModule = (() => {
             });
         }
     }
+    return { updateDisplay }
 })();
