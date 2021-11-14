@@ -228,7 +228,7 @@ const tableModule = (() => {
             bookList = storage.getLocalStorage(); //from booklist.js
         }
         bookList.forEach((book) => { //from booklist.js
-            myLibrary.push(new Book(book.title, book.author, book.coverType, book.checkOut, book.notes, book.bookID));
+            myLibrary.push(new Book(book.title, book.author, book.coverType, book.checkedOut, book.notes, book.bookID));
         });
     }
 
