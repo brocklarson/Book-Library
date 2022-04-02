@@ -2157,5 +2157,13 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 269
+    },
+    {
+        "title": "The Red Dragon",
+        "author": "Thomas Harris",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 270
     }
 ]
