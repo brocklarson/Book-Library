@@ -2165,5 +2165,29 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 270
+    },
+    {
+        "title": "Humble Pi: When Math Goes Wrong in the Real World",
+        "author": "Matt Parker",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 271
+    },
+    {
+        "title": "Tender is the Night",
+        "author": "F. Scott Fitzgerald",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 272
+    },
+    {
+        "title": "Mark Twain's Letters from Hawaii",
+        "author": "A. Grove Day",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 273
     }
 ]
