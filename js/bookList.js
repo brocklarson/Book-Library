@@ -1281,7 +1281,7 @@ let bookList = [{
     {
         "title": "Harry Potter and the Order of the Phoenix",
         "author": "J.K. Rowling",
-        "coverType": "Paperback",
+        "coverType": "Hardback",
         "checkedOut": false,
         "notes": "",
         "bookID": 160
@@ -2189,5 +2189,13 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 273
+    },
+    {
+        "title": "Drums of Autumn",
+        "author": "Diana Gabaldon",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 274
     }
 ]
