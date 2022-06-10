@@ -2197,5 +2197,21 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 274
+    },
+    {
+        "title": "Beloved",
+        "author": "Tom Morrison",
+        "coverType": "Hardback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 275
+    },
+    {
+        "title": "Climbing Free: My Life in the Vertical World",
+        "author": "Lynn Hill",
+        "coverType": "Hardback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 276
     }
 ]
