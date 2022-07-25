@@ -2213,5 +2213,45 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 276
+    },
+    {
+        "title": "Dawnshard",
+        "author": "Brandon Sanderson",
+        "coverType": "Hardback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 277
+    },
+    {
+        "title": "Warbreaker",
+        "author": "Brandon Sanderson",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 278
+    },
+    {
+        "title": "The Body Keeps the Score",
+        "author": "Bessel Van Der Kolk",
+        "coverType": "Hardback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 279
+    },
+    {
+        "title": "The Hunchback of Notre Dame",
+        "author": "Victor Hugo",
+        "coverType": "Hardback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 280
+    },
+    {
+        "title": "Three",
+        "author": "Kurt Vonnegut",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 281
     }
 ]
