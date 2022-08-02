@@ -2253,5 +2253,13 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 281
+    },
+    {
+        "title": "The Silence of the Lambs",
+        "author": "Thomas Harris",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 282
     }
 ]
