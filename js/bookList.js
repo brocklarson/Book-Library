@@ -2271,7 +2271,7 @@ let bookList = [{
         "bookID": 283
     },
     {
-        "title": "Stuart Little,
+        "title": "Stuart Little",
         "author": "E.B. White",
         "coverType": "Paperback",
         "checkedOut": false,
