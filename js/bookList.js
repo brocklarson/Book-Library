@@ -2261,5 +2261,37 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 282
+    },
+    {
+        "title": "Matilda",
+        "author": "Road Dahl",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 283
+    },
+    {
+        "title": "Stuart Little,
+        "author": "E.B. White",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 284
+    },
+    {
+        "title": "The Velveteen Rabbit",
+        "author": "Margery Williams",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 285
+    },
+    {
+        "title": "The Adventures of Frog and Toad",
+        "author": "Arnold Lobel",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 286
     }
 ]
