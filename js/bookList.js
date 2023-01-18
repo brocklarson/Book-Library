@@ -2293,5 +2293,13 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 286
+    },
+    {
+        "title": "The Alloy of Law",
+        "author": "Brandon Sanderson",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 287
     }
 ]
