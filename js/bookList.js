@@ -2301,5 +2301,37 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 287
+    },
+    {
+        "title": "Knife of Dreams",
+        "author": "Robert Jordan",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 288
+    },
+    {
+        "title": "Magic Tree House: Pirates Past Noon",
+        "author": "Mary Pope Osborne",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 289
+    },
+    {
+        "title": "Magic Tree House: The Knight at Dawn",
+        "author": "Mary Pope Osborne",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 290
+    },
+    {
+        "title": "Magic Tree House: Dinosaurs Before Dark",
+        "author": "Mary Pope Osborne",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 291
     }
 ]
