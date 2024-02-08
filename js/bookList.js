@@ -160,7 +160,7 @@ let bookList = [{
     },
     {
         "title": "Tragedies",
-        "author": "Williams Shakespeare",
+        "author": "William Shakespeare",
         "coverType": "Hardback",
         "checkedOut": false,
         "notes": "",
@@ -904,7 +904,7 @@ let bookList = [{
     },
     {
         "title": "The Tempest",
-        "author": "Williams Shakespeare",
+        "author": "William Shakespeare",
         "coverType": "Paperback",
         "checkedOut": false,
         "notes": "",
@@ -1184,7 +1184,7 @@ let bookList = [{
     },
     {
         "title": "Hamlet",
-        "author": "Williams Shakespeare",
+        "author": "William Shakespeare",
         "coverType": "Paperback",
         "checkedOut": false,
         "notes": "",
@@ -1288,7 +1288,7 @@ let bookList = [{
     },
     {
         "title": "Much Ado About Nothing",
-        "author": "Williams Shakespeare",
+        "author": "William Shakespeare",
         "coverType": "Paperback",
         "checkedOut": false,
         "notes": "",
@@ -2303,20 +2303,12 @@ let bookList = [{
         "bookID": 287
     },
     {
-        "title": "Knife of Dreams",
-        "author": "Robert Jordan",
-        "coverType": "Paperback",
-        "checkedOut": false,
-        "notes": "",
-        "bookID": 288
-    },
-    {
         "title": "Magic Tree House: Pirates Past Noon",
         "author": "Mary Pope Osborne",
         "coverType": "Paperback",
         "checkedOut": false,
         "notes": "",
-        "bookID": 289
+        "bookID": 288
     },
     {
         "title": "Magic Tree House: The Knight at Dawn",
@@ -2324,12 +2316,28 @@ let bookList = [{
         "coverType": "Paperback",
         "checkedOut": false,
         "notes": "",
-        "bookID": 290
+        "bookID": 289
     },
     {
         "title": "Magic Tree House: Dinosaurs Before Dark",
         "author": "Mary Pope Osborne",
         "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 290
+    },
+    {
+        "title": "The Taming of the Shrew",
+        "author": "William Shakespeare",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 291
+    },
+    {
+        "title": "The Subtle Knife",
+        "author": "Philip Pullman",
+        "coverType": "Hardback",
         "checkedOut": false,
         "notes": "",
         "bookID": 291
