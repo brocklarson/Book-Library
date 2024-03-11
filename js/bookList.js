@@ -2341,5 +2341,37 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 292
+    },
+    {
+        "title": "100 Great Artists",
+        "author": "Charlotte Gerlings",
+        "coverType": "Hardback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 293
+    },
+    {
+        "title": "The Gathering Storm",
+        "author": "Robert Jordan, Brandon Sanderson",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 294
+    },
+    {
+        "title": "Towers of Midnight",
+        "author": "Robert Jordan, Brandon Sanderson",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 295
+    },
+    {
+        "title": "A Memory of Light",
+        "author": "Robert Jordan, Brandon Sanderson",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 296
     }
 ]
