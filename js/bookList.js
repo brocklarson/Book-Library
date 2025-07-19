@@ -2373,5 +2373,37 @@ let bookList = [{
         "checkedOut": false,
         "notes": "",
         "bookID": 296
+    },
+    {
+        "title": "Mattimeo",
+        "author": "Brian Jacques",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 297
+    },
+    {
+        "title": "Mossflower",
+        "author": "Brian Jacques",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 298
+    },
+    {
+        "title": "The Hiding Place",
+        "author": "Corrie Ten Boom",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 299
+    },
+    {
+        "title": "Wind and Truth",
+        "author": "Brandon Sanderson",
+        "coverType": "Paperback",
+        "checkedOut": false,
+        "notes": "",
+        "bookID": 300
     }
 ]
